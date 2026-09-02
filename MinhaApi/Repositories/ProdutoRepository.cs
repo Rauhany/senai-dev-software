@@ -36,8 +36,22 @@ public ProdutoRepository(IConfiguration config)
 
     public void Add(Produto p)
     {
-        p.Id = _db.Any() ? _db.Max(x => x.Id) + 1 : 1;
-        _db.Add(p);
+        using var conn = new MySqlConnection(_connectionString);
+        conn.Open();
+
+        string sql = @"INSERT INTO produtos (nome, preco, estoque, ativo)
+                       VALUES (@Nome, @Preco, @Estoque, @Ativo);
+                       SELECT LAST_INSERT_ID();";
+
+        using var cmd = new MySqlCommand(sql, conn);
+        cmd.Parameters.AddWithValue("@Nome", p.Nome);
+        cmd.Parameters.AddWithValue("@Preco", p.Preco);
+        cmd.Parameters.AddWithValue("@Estoque", p.Estoque);
+        cmd.Parameters.AddWithValue("@Ativo", p.Ativo);
+
+        // Executa a inserção e recupera o ID gerado pelo MySQL
+        var idGerado = cmd.ExecuteScalar();
+        p.Id = Convert.ToInt32(idGerado);
     }
 
     public void Update(Produto p)
