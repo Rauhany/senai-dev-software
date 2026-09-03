@@ -34,31 +34,47 @@ public ProdutoRepository(IConfiguration config)
   }
     public Produto? GetById(int id) => _db.FirstOrDefault(p => p.Id == id);
 
-    public void Add(Produto p)
-    {
-        using var conn = new MySqlConnection(_connectionString);
-        conn.Open();
+public void Add(Produto p) {
+    using var conn = new MySqlConnection(_connectionString);
+    conn.Open();
 
-        string sql = @"INSERT INTO produtos (nome, preco, estoque, ativo)
-                       VALUES (@Nome, @Preco, @Estoque, @Ativo);
-                       SELECT LAST_INSERT_ID();";
+    string sql = @"INSERT INTO produtos (nome, preco, estoque, ativo) 
+                   VALUES (@Nome, @Preco, @Estoque, @Ativo);
+                   SELECT LAST_INSERT_ID();";
 
-        using var cmd = new MySqlCommand(sql, conn);
-        cmd.Parameters.AddWithValue("@Nome", p.Nome);
-        cmd.Parameters.AddWithValue("@Preco", p.Preco);
-        cmd.Parameters.AddWithValue("@Estoque", p.Estoque);
-        cmd.Parameters.AddWithValue("@Ativo", p.Ativo);
+    using var cmd = new MySqlCommand(sql, conn);
+    cmd.Parameters.AddWithValue("@Nome", p.Nome);
+    cmd.Parameters.AddWithValue("@Preco", p.Preco);
+    cmd.Parameters.AddWithValue("@Estoque", p.Estoque);
+    cmd.Parameters.AddWithValue("@Ativo", p.Ativo);
 
-        // Executa a inserção e recupera o ID gerado pelo MySQL
-        var idGerado = cmd.ExecuteScalar();
-        p.Id = Convert.ToInt32(idGerado);
-    }
+    // Executa a inserção e recupera o ID gerado pelo MySQL
+    var idGerado = cmd.ExecuteScalar();
+    p.Id = Convert.ToInt32(idGerado);
+}
 
-    public void Update(Produto p)
-    {
-        var i = _db.FindIndex(x => x.Id == p.Id);
-        if (i >= 0) _db[i] = p;
-    }
+    public void Update(Produto p) {
+    using var conn = new MySqlConnection(_connectionString);
+    conn.Open();
+    string sql = @"UPDATE produtos 
+                   SET nome = @Nome, preco = @Preco, estoque = @Estoque, ativo = @Ativo 
+                   WHERE id = @Id";
+    using var cmd = new MySqlCommand(sql, conn);
+    cmd.Parameters.AddWithValue("@Id", p.Id);
+    cmd.Parameters.AddWithValue("@Nome", p.Nome);
+    cmd.Parameters.AddWithValue("@Preco", p.Preco);
+    cmd.Parameters.AddWithValue("@Estoque", p.Estoque);
+    cmd.Parameters.AddWithValue("@Ativo", p.Ativo);
+    cmd.ExecuteNonQuery();
+}
 
-    public void Delete(int id) => _db.RemoveAll(p => p.Id == id);
+    public void Delete(int id) {
+    using var conn = new MySqlConnection(_connectionString);
+    conn.Open();
+    string sql = "DELETE FROM produtos WHERE id = @Id";
+    using var cmd = new MySqlCommand(sql, conn);
+    cmd.Parameters.AddWithValue("@Id", id);
+    cmd.ExecuteNonQuery();
+}
+
 }
