@@ -56,7 +56,7 @@ public class ProdutoController : ControllerBase
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        var deletado = _service.Delete(id);
+        bool deletado = _service.Delete(id);
 
         if (!deletado)
             return NotFound();
