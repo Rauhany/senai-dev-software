@@ -104,6 +104,4 @@ public ProdutoRepository(IConfiguration config)
         cmd.Parameters.AddWithValue("@Id", id);
         cmd.ExecuteNonQuery();
     }
-
-   
 }

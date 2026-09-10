@@ -11,7 +11,7 @@ public class ProdutoService : IProdutoService
 
     public Produto? GetById(int id) => _repo.GetById(id);
 
-    public Produto Create(Produto produto)
+    public Produto Add(Produto produto)
     {
         if (produto.Preco < 0)
             throw new ArgumentException("Preço inválido!");

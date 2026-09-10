@@ -35,7 +35,7 @@ public class ProdutoController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var criado = _service.Create(produto);
+        var criado = _service.Add(produto);
 
         return CreatedAtAction(nameof(GetById), new { id = criado.Id }, criado);
     }
