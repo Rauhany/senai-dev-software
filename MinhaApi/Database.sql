@@ -4,7 +4,7 @@ USE minha_api_db;
 
 -- 2. Criação da Tabela de Produtos
 CREATE TABLE IF NOT EXISTS produtos (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    idproduto INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     preco DECIMAL(10,2) NOT NULL,
     estoque INT NOT NULL DEFAULT 0,
@@ -12,9 +12,9 @@ CREATE TABLE IF NOT EXISTS produtos (
 );
 
 CREATE TABLE IF NOT EXISTS cliente (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    idcliente INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
-    email DECIMAL(100) NOT NULL,
+    email varchar(100),
     cpf varchar(14),
     ativo TINYINT(1) NOT NULL DEFAULT 1
 );
@@ -25,15 +25,16 @@ VALUES
 ('Notebook', 3500.00, 10, 1),
 ('Mouse Gamer', 120.50, 45, 1);
 
+-- ----------- Criação da Tabela de Vendas -----------
 
--------------------------
-USE minha_api_db;
+CREATE TABLE IF NOT EXISTS vendas (
 
--- 2. Criação da Tabela de Clientes
-CREATE TABLE IF NOT EXISTS clientes (
-    Id INT AUTO_INCREMENT PRIMARY KEY,
-    Nome VARCHAR(255) NOT NULL,
-    Email VARCHAR(255) NOT NULL,
-    Cpf VARCHAR(14),
-    Ativo BOOLEAN DEFAULT TRUE
+   idvendas INT AUTO_INCREMENT PRIMARY KEY,
+    data_venda datetime,
+    valor_total decimal(10,2),
+    idproduto int,
+    idcliente int,
+    foreign key(idproduto)references produtos(idproduto),
+	foreign key(idcliente)references cliente(idcliente)
+
 );

@@ -12,3 +12,4 @@ public class Cliente
     public bool Ativo { get; set; }
         = true;
 }
+
