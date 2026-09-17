@@ -1,62 +1,62 @@
 using MinhaApi.Models;
 using MySqlConnector;
 namespace MinhaApi.Repositories;
-public class ProdutoRepository : IProdutoRepository{
-private readonly string _connectionString;
-public ProdutoRepository(IConfiguration config) 
-=> _connectionString = config.GetConnectionString("DefaultConnection")!;
 
-    private static List<Produto> _db = new()
-    {
-        new Produto { Id=1, Nome="Notebook", Preco=2500m, Estoque=10 },
-        new Produto { Id=2, Nome="Mouse", Preco=89.90m, Estoque=50 }
-    
-    };
-      public IEnumerable<Produto> GetAll() {
-      var lista = new List<Produto>();
-      using var conn = new MySqlConnection(_connectionString);
-      conn.Open();
-
-      string sql = "SELECT id, nome, preco, estoque, ativo FROM produtos";
-      using var cmd = new MySqlCommand(sql, conn);
-      using var reader = cmd.ExecuteReader();
-
-      while (reader.Read()) {
-          lista.Add(new Produto {
-              Id = reader.GetInt32("id"),
-              Nome = reader.GetString("nome"),
-              Preco = reader.GetDecimal("preco"),
-              Estoque = reader.GetInt32("estoque"),
-              Ativo = reader.GetBoolean("ativo")
-          });
-      }
-      return lista;
-  }
-    public Produto? GetById(int id)
+public class ProdutoRepository : IProdutoRepository
 {
-    using var conn = new MySqlConnection(_connectionString);
-    conn.Open();
+    private readonly string _connectionString;
+    
+    public ProdutoRepository(IConfiguration config) 
+        => _connectionString = config.GetConnectionString("DefaultConnection")!;
 
-    string sql = "SELECT id, nome, preco, estoque, ativo FROM produtos WHERE id = @Id";
-    using var cmd = new MySqlCommand(sql, conn);
-    cmd.Parameters.AddWithValue("@Id", id);
-
-    using var reader = cmd.ExecuteReader();
-
-    if (reader.Read())
+    public IEnumerable<Produto> GetAll() 
     {
-        return new Produto 
-        {
-            Id = reader.GetInt32("id"),
-            Nome = reader.GetString("nome"),
-            Preco = reader.GetDecimal("preco"),
-            Estoque = reader.GetInt32("estoque"),
-            Ativo = reader.GetBoolean("ativo")
-        };
+        var lista = new List<Produto>();
+        using var conn = new MySqlConnection(_connectionString);
+        conn.Open();
+
+        // CORREÇÃO: Trocado 'id' por 'idproduto'
+        string sql = "SELECT idproduto, nome, preco, estoque, ativo FROM produtos";
+        using var cmd = new MySqlCommand(sql, conn);
+        using var reader = cmd.ExecuteReader();
+
+        while (reader.Read()) {
+            lista.Add(new Produto {
+                Id = reader.GetInt32("idproduto"),
+                Nome = reader.GetString("nome"),
+                Preco = reader.GetDecimal("preco"),
+                Estoque = reader.GetInt32("estoque"),
+                Ativo = reader.GetBoolean("ativo")
+            });
+        }
+        return lista;
     }
 
-    return null;
-}
+    public Produto? GetById(int id)
+    {
+        using var conn = new MySqlConnection(_connectionString);
+        conn.Open();
+
+        string sql = "SELECT idproduto, nome, preco, estoque, ativo FROM produtos WHERE idproduto = @Id";
+        using var cmd = new MySqlCommand(sql, conn);
+        cmd.Parameters.AddWithValue("@Id", id);
+
+        using var reader = cmd.ExecuteReader();
+
+        if (reader.Read())
+        {
+            return new Produto 
+            {
+                Id = reader.GetInt32("idproduto"), 
+                Nome = reader.GetString("nome"),
+                Preco = reader.GetDecimal("preco"),
+                Estoque = reader.GetInt32("estoque"),
+                Ativo = reader.GetBoolean("ativo")
+            };
+        }
+
+        return null;
+    }
 
     public void Add(Produto p)
     {
@@ -73,7 +73,6 @@ public ProdutoRepository(IConfiguration config)
         cmd.Parameters.AddWithValue("@Estoque", p.Estoque);
         cmd.Parameters.AddWithValue("@Ativo", p.Ativo);
 
-        // Executa a inserção e recupera o ID gerado pelo MySQL
         var idGerado = cmd.ExecuteScalar();
         p.Id = Convert.ToInt32(idGerado);
     }
@@ -82,9 +81,10 @@ public ProdutoRepository(IConfiguration config)
     {
         using var conn = new MySqlConnection(_connectionString);
         conn.Open();
+        
         string sql = @"UPDATE produtos 
                        SET nome = @Nome, preco = @Preco, estoque = @Estoque, ativo = @Ativo
-                       WHERE id = @Id";
+                       WHERE idproduto = @Id";
 
         using var cmd = new MySqlCommand(sql, conn);
         cmd.Parameters.AddWithValue("@Id", p.Id);
@@ -99,7 +99,8 @@ public ProdutoRepository(IConfiguration config)
     {
         using var conn = new MySqlConnection(_connectionString);
         conn.Open();
-        string sql = "DELETE FROM produtos WHERE id = @Id";
+        
+        string sql = "DELETE FROM produtos WHERE idproduto = @Id";
         using var cmd = new MySqlCommand(sql, conn);
         cmd.Parameters.AddWithValue("@Id", id);
         cmd.ExecuteNonQuery();
