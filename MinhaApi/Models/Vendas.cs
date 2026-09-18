@@ -12,4 +12,7 @@ public class Vendas
         = 0;
      public int Idproduto{ get; set; }
         = 0;
+    public int Quantidade { get; set; }
+        = 0;
+    public int ProdutoId { get; internal set; }
 }
