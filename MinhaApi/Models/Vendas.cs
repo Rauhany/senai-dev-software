@@ -1,18 +1,11 @@
 namespace MinhaApi.Models;
 
-public class Vendas
+public class Venda
 {
     public int Id { get; set; }
-
-    public DateTime Data_Vendas { get; set; }
-        = DateTime.MinValue;
-    public decimal valor_total { get; set; }
-        = 0;
-    public int Idcliente{ get; set; }
-        = 0;
-     public int Idproduto{ get; set; }
-        = 0;
-    public int Quantidade { get; set; }
-        = 0;
-    public int ProdutoId { get; internal set; }
+    public DateTime DataVenda { get; set; } = DateTime.MinValue;
+    public decimal ValorTotal { get; set; } = 0;
+    public int ClienteId { get; set; } = 0;
+    public int ProdutoId { get; set; } = 0;
+    public int Quantidade { get; set; } = 0;
 }

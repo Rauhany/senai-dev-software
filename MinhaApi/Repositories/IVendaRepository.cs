@@ -4,7 +4,7 @@ namespace MinhaApi.Repositories;
 
 public interface IVendaRepository
 {
-    IEnumerable<Vendas> GetAll();
-    Vendas? GetById(int id);
-    void Add(Vendas vendas);
+    IEnumerable<Venda> GetAll();    
+    Venda? GetById(int id);
+    Venda Add(Venda venda);
 }
