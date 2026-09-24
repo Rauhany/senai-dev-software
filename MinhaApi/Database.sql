@@ -29,8 +29,17 @@ CREATE TABLE vendas (
     foreign key(idcliente) references clientes(id)
 );
 
+CREATE TABLE fornecedores (
+    id int auto_increment primary key,
+    nome varchar(100),
+    cnpj varchar(14),
+    email varchar(100)
+);
+
 -- 3. Inserção de Dados Iniciais (Carga)
 INSERT INTO produtos (nome, preco, estoque, ativo) 
 VALUES 
 ('Notebook', 3500.00, 10, 1),
 ('Mouse Gamer', 120.50, 45, 1);
+
+ALTER TABLE fornecedores ADD COLUMN ativo BOOLEAN DEFAULT 1;
