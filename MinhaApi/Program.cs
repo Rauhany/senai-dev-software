@@ -1,3 +1,4 @@
+using MinhaApi.Models;
 using MinhaApi.Repositories;
 using MinhaApi.Services;
 
@@ -21,6 +22,9 @@ builder.Services.AddScoped<IVendaService, VendaService>();
 
 builder.Services.AddScoped<IFornecedoresRepository, FornecedoresRepository>();
 builder.Services.AddScoped<IFornecedoresService, FornecedoresService>();
+
+builder.Services.AddScoped<IDepartamentoRepository, DepartamentoRepository>();
+builder.Services.AddScoped<IDepartamentoService, DepartamentoService>();
 
 var app = builder.Build();
 

@@ -36,6 +36,15 @@ CREATE TABLE fornecedores (
     email varchar(100)
 );
 
+create table departamento(
+id int auto_increment primary key,
+nome varchar(100),
+descricao varchar(100),
+qtdfuncionario int,
+ativo TINYINT(1) NOT NULL DEFAULT 1
+);
+
+
 -- 3. Inserção de Dados Iniciais (Carga)
 INSERT INTO produtos (nome, preco, estoque, ativo) 
 VALUES 
