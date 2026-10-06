@@ -10,7 +10,7 @@ export const produtoService = {
 
   criar: async (p: NovoProduto): Promise<produto> => {
     const { data } = await api.post('/produto', p)
-    return data
+    return data 
   }
 
 }

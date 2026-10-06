@@ -1,4 +1,4 @@
-import type { produto } from '../types/Produto';
+import type { produto } from '../../types/Produto';
 import './produto.css';
 
 interface Props {
