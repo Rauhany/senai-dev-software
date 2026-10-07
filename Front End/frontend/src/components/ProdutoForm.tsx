@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { produtoService } from '../../services/produtoService'
+import { produtoService } from "../services/produtoService"
 import './produto.css'
 
 interface Props {

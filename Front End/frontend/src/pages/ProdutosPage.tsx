@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import type{ Produto } from '../types/Produto'
+import type{ produto } from '../types/Produto'
 import { produtoService } from '../services/produtoService'
 import ProdutoForm from '../components/ProdutoForm'
 import ProdutoList from '../components/produtoList.tsx'
 
 function ProdutosPage() {
-  const [produtos, setProdutos] = useState<Produto[]>([])
+  const [produtos, setProdutos] = useState<produto[]>([])
   const [loading, setLoading] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
 

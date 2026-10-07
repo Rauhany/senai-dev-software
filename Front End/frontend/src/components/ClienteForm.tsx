@@ -42,3 +42,5 @@ function ClienteForm({ onClienteCriado }: Props) {
   </form>
 )
 }
+
+export default ClienteForm

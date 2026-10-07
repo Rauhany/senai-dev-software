@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate }
-  from 'react-router-dom'
-import Sidebar from './components/Sidebar'
+from 'react-router-dom'
+import  Sidebar  from './components/Sidebar'
 import ProdutosPage from './pages/ProdutosPage'
 import ClientesPage from './pages/ClientePage'
 

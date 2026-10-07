@@ -1,4 +1,4 @@
-import type{ Cliente, type Cliente } from '../types/Cliente.ts'
+import type{ Cliente, NovoCliente } from '../types/Cliente.ts'
 
 interface Props {
   clientes: Cliente[]
