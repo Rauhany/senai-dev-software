@@ -1,38 +1,53 @@
-import type { produto } from '../types/Produto';
-import './produto.css';
+import { useState } from 'react'
+import type { produto } from '../types/Produto'
 
 interface Props {
-  produtos: produto[];
-  loading: boolean;
+  produtos: produto[]
+  loading: boolean
 }
 
 function ProdutoList({ produtos, loading }: Props) {
-  const listaProdutos = Array.isArray(produtos) ? produtos : [];
+  const [busca, setBusca] = useState('')
+
+  // Filtra os produtos com base na digitação
+  const produtosFiltrados = produtos.filter(p => 
+    p.nome.toLowerCase().includes(busca.toLowerCase())
+  )
 
   return (
-    <div className="produto-container">
-      {/* 1. O título fica AQUI DENTRO da caixa branca */}
-      <h2 className="secao-titulo">Produtos Cadastrados</h2>
+    <section className="card">
+      <div className="card-header list-header">
+        <h2>Produtos cadastrados</h2>
+        <span className="badge">LISTA</span>
+      </div>
 
-      {/* 2. Conteúdo exibido dentro da caixa */}
+      <div className="search-bar">
+        <input 
+          type="text" 
+          placeholder="🔍 Buscar na lista..." 
+          value={busca}
+          onChange={(e) => setBusca(e.target.value)}
+        />
+      </div>
+
       {loading ? (
-        <p className="produto-vazio">Carregando...</p>
-      ) : listaProdutos.length === 0 ? (
-        <p className="produto-vazio">Nenhum produto cadastrado ainda.</p>
+        <p className="list-msg">Carregando produtos...</p>
+      ) : produtosFiltrados.length === 0 ? (
+        <p className="list-msg">Nenhum produto encontrado.</p>
       ) : (
-        <ul className="produto-lista">
-          {listaProdutos.map((p) => (
-            <li key={p.id} className="produto-item">
-              <span className="produto-nome">{p.nome}</span>
-              <span className="produto-preco">
-                R$ {p.preco?.toFixed(2)}
+        <ul className="product-list">
+          {produtosFiltrados.map(p => (
+            <li key={p.id} className="product-item">
+              <span className="product-name">{p.nome}</span>
+              <span className="product-price">
+                R$ {Number(p.preco).toFixed(2).replace('.', ',')}
               </span>
             </li>
           ))}
         </ul>
       )}
-    </div>
-  );
+    </section>
+  )
 }
 
-export default ProdutoList;
+export default ProdutoList

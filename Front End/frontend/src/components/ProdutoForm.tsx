@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { produtoService } from "../services/produtoService"
-import './produto.css'
 
 interface Props {
   onProdutoCriado: () => void
@@ -19,7 +18,7 @@ function ProdutoForm({ onProdutoCriado }: Props) {
       setLoading(true)
       await produtoService.criar({
         nome,
-        preco: Number(preco),
+        preco: Number(preco.replace(',', '.')), // Garante que aceite vírgula
       })
       setNome('')
       setPreco('')
@@ -32,23 +31,25 @@ function ProdutoForm({ onProdutoCriado }: Props) {
   }
 
   return (
-    <div className="produto-container">
-      <h2 className="produto-titulo">Cadastrar Produto</h2>
+    <section className="card">
+      <div className="card-header">
+        <h2>Cadastrar produto</h2>
+        <p>Preencha os dados para adicionar um item.</p>
+      </div>
 
       {erro && (
-        <p style={{ color: '#dc2626', marginBottom: '12px', fontWeight: 500 }}>
+        <p style={{ color: '#ff6b6b', marginBottom: '12px', fontSize: '14px' }}>
           {erro}
         </p>
       )}
 
-      <form className="produto-form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="nome">Nome</label>
+      <form className="form-layout" onSubmit={handleSubmit}>
+        <div className="input-group">
+          <label htmlFor="nome">Nome do produto</label>
           <input
             id="nome"
-            className="form-input"
             type="text"
-            placeholder="Ex: Teclado Mecânico"
+            placeholder="Ex.: Mouse gamer"
             value={nome}
             onChange={e => {
               if (erro) setErro(null)
@@ -60,15 +61,12 @@ function ProdutoForm({ onProdutoCriado }: Props) {
           />
         </div>
 
-        <div className="form-group">
+        <div className="input-group">
           <label htmlFor="preco">Preço (R$)</label>
           <input
             id="preco"
-            className="form-input"
-            type="number"
-            step="0.01"
-            min="0.01"
-            placeholder="0.00"
+            type="text"
+            placeholder="Ex.: 120,50"
             value={preco}
             onChange={e => {
               if (erro) setErro(null)
@@ -79,11 +77,12 @@ function ProdutoForm({ onProdutoCriado }: Props) {
           />
         </div>
 
-        <button type="submit" className="btn-cadastrar" disabled={loading}>
-          {loading ? 'Salvando...' : 'Cadastrar'}
-        </button>
+       TypeScript
+<button type="submit" className="btn-primary" disabled={loading}>
+  {loading ? 'Cadastrando...' : 'Cadastrar produto'}
+</button>
       </form>
-    </div>
+    </section>
   )
 }
 

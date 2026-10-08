@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import type{ produto } from '../types/Produto'
+import type { produto } from '../types/Produto'
 import { produtoService } from '../services/produtoService'
 import ProdutoForm from '../components/ProdutoForm'
-import ProdutoList from '../components/produtoList.tsx'
+import ProdutoList from '../components/produtoList'
+import '../components/produto.css' // Importando os estilos da página
 
 function ProdutosPage() {
   const [produtos, setProdutos] = useState<produto[]>([])
@@ -19,11 +20,21 @@ function ProdutosPage() {
 
   useEffect(() => { carregarProdutos() }, [])
 
-  return (<div>
-    <h1>Gestão de Produtos</h1>
-    <ProdutoForm onProdutoCriado={carregarProdutos} />
-    {erro && <p>{erro}</p>}
-    <ProdutoList produtos={produtos} loading={loading} />
-  </div>)
+  return (
+    <main className="page-container">
+      <header className="page-header">
+        <span className="overline">PAINEL DE GESTÃO</span>
+        <h1>Gestão de Produtos</h1>
+        <p>Cadastre, encontre e organize seu catálogo com facilidade.</p>
+      </header>
+
+      <div className="content-grid">
+        <ProdutoForm onProdutoCriado={carregarProdutos} />
+        {erro && <p style={{ color: '#ff6b6b' }}>{erro}</p>}
+        <ProdutoList produtos={produtos} loading={loading} />
+      </div>
+    </main>
+  )
 }
+
 export default ProdutosPage

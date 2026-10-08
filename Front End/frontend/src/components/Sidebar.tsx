@@ -1,22 +1,35 @@
 import { NavLink } from 'react-router-dom'
-
-const getLinkStyle = ({ isActive }: { isActive: boolean }) => ({
-  display: 'block',
-  padding: '12px 20px',
-  color: isActive ? '#c8d400' : 'white',
-  fontWeight: isActive ? 700 : 400,
-  background: isActive ? 'rgba(255,255,255,.12)' : 'transparent',
-  borderLeft: isActive ? '4px solid #c8d400' : '4px solid transparent'
-})
+import './sidebar.css'
 
 function Sidebar() {
   return (
-    <nav style={{ width: '210px', background: '#1a3d5c',
-      minHeight: '100vh', padding: '24px 0', flexShrink: 0 }}>
-      <div>MinhaApp</div>
-      <NavLink to="/produtos" style={getLinkStyle}>📦 Produtos</NavLink>
-      <NavLink to="/clientes" style={getLinkStyle}>👤 Clientes</NavLink>
-    </nav>
+    <aside className="sidebar">
+      <div className="sidebar-header">
+        <div className="logo-container">
+          <div className="logo-box">
+            <span className="logo-icon">📦</span>
+          </div>
+          <h2>MinhaApp</h2>
+        </div>
+        <p className="sidebar-subtitle">Tudo em ordem, em um só lugar.</p>
+      </div>
+
+      <nav className="sidebar-nav">
+        <NavLink 
+          to="/produtos" 
+          className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}
+        >
+          <span className="icon">📦</span> Produtos
+        </NavLink>
+        <NavLink 
+          to="/clientes" 
+          className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}
+        >
+          <span className="icon">👤</span> Clientes
+        </NavLink>
+      </nav>
+    </aside>
   )
 }
-export default  Sidebar 
+
+export default Sidebar

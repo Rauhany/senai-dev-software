@@ -1,0 +1,22 @@
+:root {
+  --bg-main: #1e2430;
+  --bg-sidebar: #153c5a;
+  --bg-card: #272d39;
+  --color-text-main: #ffffff;
+  --color-text-muted: #9ba1a6;
+  --color-primary: #e6d36e; /* Amarelo do botão */
+  --border-color: #3b4252;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--color-text-main);
+  font-family: 'Inter', sans-serif; /* Use a fonte da sua preferência */
+  margin: 0;
+  display: flex;
+}
+#root {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}

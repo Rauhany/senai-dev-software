@@ -1,0 +1,190 @@
+/* Layout da Página */
+.page-container {
+  padding: 40px;
+  flex: 1;
+  max-width: 800px;
+}
+
+.page-header {
+  margin-bottom: 30px;
+}
+
+.overline {
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-transform: uppercase;
+}
+
+.overline::before {
+  content: "";
+  display: block;
+  width: 32px;
+  height: 2px;
+  background-color: var(--color-primary);
+}
+
+.page-header h1 {
+  font-size: 32px;
+  margin: 12px 0 8px 0;
+  font-weight: 800;
+}
+
+.page-header p {
+  color: var(--color-text-muted);
+  font-size: 15px;
+  padding-bottom: 24px;
+  margin: 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.content-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Cartões (Cards) */
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.card-header h2 {
+  font-size: 20px;
+  margin: 0 0 6px 0;
+}
+
+.card-header p {
+  color: var(--color-text-muted);
+  font-size: 13px;
+  margin: 0 0 24px 0;
+}
+
+/* Formulário e Inputs */
+.form-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.input-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.input-group input, .search-bar input {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border-color);
+  color: var(--color-text-main);
+  padding: 14px 16px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.input-group input:focus, .search-bar input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* Botão Principal */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #1e2430; /* Texto escuro para dar contraste com o amarelo */
+  font-weight: 700;
+  font-size: 15px;
+  border: none;
+  border-radius: 8px;
+  padding: 14px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #d1be55;
+}
+
+.btn-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Estilos Específicos da Lista */
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.badge {
+  border: 1px solid var(--border-color);
+  color: var(--color-text-muted);
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.search-bar {
+  margin-bottom: 24px;
+}
+
+.product-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.product-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.product-name {
+  font-weight: 500;
+}
+
+.product-price {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.list-msg {
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: 20px;
+}
+.page-container {
+  padding: 40px;
+  flex: 1;
+  max-width: 800px;
+  text-align: left; /* Força o alinhamento à esquerda */
+}
+
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: left; /* Força o alinhamento à esquerda */
+}
