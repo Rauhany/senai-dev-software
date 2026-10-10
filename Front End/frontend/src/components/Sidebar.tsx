@@ -21,11 +21,20 @@ function Sidebar() {
         >
           <span className="icon">📦</span> Produtos
         </NavLink>
+        
         <NavLink 
           to="/clientes" 
           className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}
         >
           <span className="icon">👤</span> Clientes
+        </NavLink>
+
+        {/* Novo link de Vendas adicionado aqui */}
+        <NavLink 
+          to="/vendas" 
+          className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}
+        >
+          <span className="icon">🛒</span> Vendas
         </NavLink>
       </nav>
     </aside>

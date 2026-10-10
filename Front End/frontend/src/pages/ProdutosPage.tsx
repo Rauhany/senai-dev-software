@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
-import type { produto } from '../types/Produto'
-import { produtoService } from '../services/produtoService'
+import type { Produto } from '../types/Produto'
+import {  produtoService } from '../services/produtoService'
 import ProdutoForm from '../components/ProdutoForm'
 import ProdutoList from '../components/produtoList'
-import '../components/produto.css' // Importando os estilos da página
+import '../components/produto.css'
 
 function ProdutosPage() {
-  const [produtos, setProdutos] = useState<produto[]>([])
+  const [produtos, setProdutos] = useState<Produto[]>([])
   const [loading, setLoading] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
 
