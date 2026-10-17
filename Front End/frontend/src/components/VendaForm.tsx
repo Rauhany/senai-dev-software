@@ -1,137 +1,103 @@
-import { useState, useEffect, type FormEvent } from 'react';
-import { vendaService } from '../services/vendaService';
-import { clienteService,  } from '../services/clienteService';
-import { produtoService,  } from '../services/produtoService';
-import type { Cliente } from '../types/Cliente';
-import type { Produto } from '../types/Produto';
+import { useState } from 'react'
+import { vendaService } from '../services/vendaService'
 
-interface VendaFormProps {
-  onVendaRealizada: () => void;
+interface Props {
+  onVendaCriada: () => void
 }
 
-export function VendaForm({ onVendaRealizada }: VendaFormProps) {
-  const [clienteId, setClienteId] = useState<string>('');
-  const [produtoId, setProdutoId] = useState<string>('');
-  const [quantidade, setQuantidade] = useState<number | ''>('');
+function VendaForm({ onVendaCriada }: Props) {
+  const [quantidade, setQuantidade] = useState<number | null>(null)
+  const [idproduto, setidproduto] = useState<number | null>(null)
+  const [idcliente, setidcliente] = useState<number | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [erro, setErro] = useState<string | null>(null)
 
-  const [clientes, setClientes] = useState<Cliente[]>([]);
-  const [produtos, setProdutos] = useState<Produto[]>([]);
-
-  const [carregando, setCarregando] = useState<boolean>(false);
-  const [mensagemSucesso, setMensagemSucesso] = useState<string | null>(null);
-  const [mensagemErro, setMensagemErro] = useState<string | null>(null);
-
-  useEffect(() => {
-    const carregarDados = async () => {
-      try {
-  const [listaClientes, listaProdutos] = await Promise.all([
-  clienteService.listar(),
-  produtoService.listar()
-]);
-        setClientes(listaClientes);
-        setProdutos(listaProdutos);
-      } catch (error) {
-        setMensagemErro('Erro ao carregar a lista de clientes e produtos.');
-      }
-    };
-
-    carregarDados();
-  }, []);
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setMensagemErro(null);
-    setMensagemSucesso(null);
-
-    if (!clienteId || !produtoId || !quantidade) {
-      setMensagemErro('Por favor, preencha todos os campos.');
-      return;
-    }
-
-    setCarregando(true);
-
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setErro(null)
     try {
-      const resposta = await vendaService.realizarVenda({
-        clienteId,
-        produtoId,
-        quantidade: Number(quantidade)
-      });
-
-      const dados = await resposta.json();
-
-      if (resposta.ok) {
-        setMensagemSucesso(`Venda registrada com sucesso! Valor total: R$ ${dados.valorTotal}`);
-        setClienteId('');
-        setProdutoId('');
-        setQuantidade('');
-        onVendaRealizada(); 
-      } else {
-        setMensagemErro(dados.mensagem || 'Ocorreu um erro ao registrar a venda.');
-      }
-    } catch (error) {
-      setMensagemErro('Erro de conexão com o servidor.');
+      setLoading(true)
+      await vendaService.criar({quantidade, idproduto, idcliente })
+      setQuantidade(null)
+      setidproduto(null)
+      setidcliente(null)
+      onVendaCriada()
+    } catch {
+      setErro('Erro ao cadastrar. Tente novamente.')
     } finally {
-      setCarregando(false);
+      setLoading(false)
     }
-  };
+  }
 
-  return (
-    <form onSubmit={handleSubmit} className="venda-form">
-      <h3>Registrar Nova Venda</h3>
+return (
+  <div className="venda-card-box">
+    <h2 className="secao-titulo-venda">Cadastrar Venda</h2>
 
-      {mensagemErro && <div style={{ color: 'red', marginBottom: '10px' }}>{mensagemErro}</div>}
-      {mensagemSucesso && <div style={{ color: 'green', marginBottom: '10px' }}>{mensagemSucesso}</div>}
+    {erro && (
+      <p style={{ color: '#dc2626', marginBottom: '12px', fontWeight: 500 }}>
+        {erro}
+      </p>
+    )}
 
-      <div style={{ marginBottom: '10px' }}>
-        <label htmlFor="clienteId">Cliente:</label>
-        <select 
-          id="clienteId" 
-          value={clienteId} 
-          onChange={(e) => setClienteId(e.target.value)}
-          disabled={carregando}
-        >
-          <option value="">Selecione um cliente</option>
-          {clientes.map(cliente => (
-            <option key={cliente.id} value={cliente.id}>
-              {cliente.nome}
-            </option>
-          ))}
-        </select>
-      </div>
+    <form className="venda-form" onSubmit={handleSubmit}>
 
-      <div style={{ marginBottom: '10px' }}>
-        <label htmlFor="produtoId">Produto:</label>
-        <select 
-          id="produtoId" 
-          value={produtoId} 
-          onChange={(e) => setProdutoId(e.target.value)}
-          disabled={carregando}
-        >
-          <option value="">Selecione um produto</option>
-          {produtos.map(produto => (
-            <option key={produto.id} value={produto.id}>
-              {produto.nome}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div style={{ marginBottom: '15px' }}>
-        <label htmlFor="quantidade">Quantidade:</label>
-        <input 
-          type="number" 
-          id="quantidade" 
-          min="1"
-          value={quantidade} 
-          onChange={(e) => setQuantidade(e.target.value ? Number(e.target.value) : '')}
-          disabled={carregando}
+      <div className="form-group">
+        <label htmlFor="quantidade">Quantidade</label>
+        <input
+          id="quantidade"
+          className="form-input"
+          type="number"
+          placeholder="Ex: 10"
+          value={quantidade || ''} 
+          onChange={e => {
+            if (erro) setErro(null)
+            setQuantidade(parseInt(e.target.value))
+          }}
+          disabled={loading}
+          required
         />
       </div>
 
-      <button type="submit" disabled={carregando}>
-        {carregando ? 'Processando...' : 'Confirmar Venda'}
+        <div className="form-group">
+            <label htmlFor="produtoId">ID do Produto</label>
+            <input
+                id="produtoId"
+                className="form-input"
+                type="number"
+                placeholder="Ex: 1"
+                value={idproduto || ''}
+                onChange={e => {
+                    if (erro) setErro(null)
+                    setidproduto(parseInt(e.target.value))
+                }}
+                disabled={loading}
+                required
+            />
+        </div>
+
+        <div className="form-group">
+            <label htmlFor="clienteId">ID do Cliente</label>
+            <input
+                id="clienteId"
+                className="form-input"
+                type="number"
+                placeholder="Ex: 1"
+                value={idcliente || ''}
+                onChange={e => {
+                    if (erro) setErro(null)
+                    setidcliente(parseInt(e.target.value))
+                }}
+                disabled={loading}
+                required
+            />
+        </div>
+
+      <button type="submit" className="btn-cadastrar-venda" disabled={loading}>
+        {loading ? 'Salvando...' : 'Cadastrar'}
       </button>
     </form>
-  );
+  </div>
+)
 }
 
+export default VendaForm

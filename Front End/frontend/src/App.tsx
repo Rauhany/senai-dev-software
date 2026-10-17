@@ -2,8 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Sidebar from './components/Sidebar'
 import ProdutosPage from './pages/ProdutosPage'
 import ClientesPage from './pages/ClientePage'
-// 1. Importação da nova página de Vendas adicionada aqui
-import { VendasPage } from './pages/VendaPage' 
+import VendaPage from './pages/VendaPage'
 
 function App() {
   return (
@@ -18,8 +17,8 @@ function App() {
             <Route path="/produtos" element={<ProdutosPage />} />
             <Route path="/clientes" element={<ClientesPage />} />
             
-            {/* 2. Nova rota de Vendas adicionada aqui */}
-            <Route path="/vendas" element={<VendasPage />} />
+            {}
+            <Route element={<VendaPage />} path="/vendas" />
           </Routes>
         </main>
       </div>

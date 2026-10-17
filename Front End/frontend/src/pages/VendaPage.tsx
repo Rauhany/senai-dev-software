@@ -1,32 +1,43 @@
-import { useState } from 'react';
-import { VendaForm } from '../components/VendaForm';   
-import VendaList from '../components/ClienteList'
+import { useEffect, useState } from 'react'
+import type { Venda } from '../types/Venda.ts'
+import { vendaService } from '../services/vendaService.ts'
+import VendaForm from '../components/VendaForm.tsx'
+import VendaList from '../components/VendaList.tsx'
 
-export function VendasPage() {
-  const [refreshKey, setRefreshKey] = useState(0);
+function VendaPage() {
+  const [vendas, setVendas] = useState<Venda[]>([])
+  const [loading, setLoading] = useState(false)
 
-  const handleVendaRealizada = () => {
-    setRefreshKey((prev) => prev + 1);
-  };
+  const carregarVendas = async () => {
+    setLoading(true)
+    try {
+      const dados = await vendaService.listar()
+      
+      if (Array.isArray(dados)) {
+        setVendas(dados)
+      } else if (dados && Array.isArray((dados as any).data)) {
+        setVendas((dados as any).data)
+      } else {
+        setVendas([]) 
+      }
+    } catch (error) {
+      console.error("Erro ao carregar vendas:", error)
+      setVendas([])
+    } finally {
+      setLoading(false)
+    }
+  }
 
+  useEffect(() => { carregarVendas() }, [])
+  
   return (
-    <div className="page-container">
-      <h2>Gestão de Vendas</h2>
-      <p>Registre novas vendas e acompanhe o histórico.</p>
-
-      {}
-      <div style={{ display: 'flex', gap: '32px', marginTop: '24px', flexWrap: 'wrap' }}>
-        
-        <div style={{ flex: '1 1 300px' }}>
-          <VendaForm onVendaRealizada={handleVendaRealizada} />
-        </div>
-
-        <div style={{ flex: '2 1 500px' }}>
-          <VendaList refreshKey={refreshKey} />
-        </div>
-
-      </div>
+    <div>
+      <h1>Gestão de Vendas</h1>
+      <VendaForm onVendaCriada={carregarVendas} />
+      <VendaList vendas={vendas} loading={loading} />
     </div>
-  );
+  )
 }
-export default VendasPage
+
+// 2. Agora a exportação padrão vai funcionar corretamente
+export default VendaPage

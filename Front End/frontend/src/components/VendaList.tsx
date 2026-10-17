@@ -1,53 +1,38 @@
-import { useState } from 'react'
-import type {Produto } from '../types/Produto'
+import type { Venda } from '../types/Venda';
+import './cliente.css';
 
 interface Props {
-  produtos: Produto[]
-  loading: boolean
+  vendas: Venda[];
+  loading: boolean;
 }
 
-function ProdutoList({ produtos, loading }: Props) {
-  const [busca, setBusca] = useState('')
-
-  // Filtra os produtos com base na digitação
-  const produtosFiltrados = produtos.filter(p => 
-    p.nome.toLowerCase().includes(busca.toLowerCase())
-  )
+function VendaList({ vendas, loading }: Props) {
+  const listaVendas = Array.isArray(vendas) ? vendas : [];
 
   return (
-    <section className="card">
-      <div className="card-header list-header">
-        <h2>Produtos cadastrados</h2>
-        <span className="badge">LISTA</span>
-      </div>
-
-      <div className="search-bar">
-        <input 
-          type="text" 
-          placeholder="🔍 Buscar na lista..." 
-          value={busca}
-          onChange={(e) => setBusca(e.target.value)}
-        />
-      </div>
+    <div className="venda-card-box">
+      <h2 className="secao-titulo-venda">Vendas Cadastradas</h2>
 
       {loading ? (
-        <p className="list-msg">Carregando produtos...</p>
-      ) : produtosFiltrados.length === 0 ? (
-        <p className="list-msg">Nenhum produto encontrado.</p>
+        <p className="venda-vazio">A carregar...</p>
+      ) : listaVendas.length === 0 ? (
+        <p className="venda-vazio">Nenhuma venda cadastrada ainda.</p>
       ) : (
-        <ul className="product-list">
-          {produtosFiltrados.map(p => (
-            <li key={p.id} className="product-item">
-              <span className="product-name">{p.nome}</span>
-              <span className="product-price">
-                R$ {Number(p.preco).toFixed(2).replace('.', ',')}
-              </span>
+        <ul className="venda-lista">
+          {listaVendas.map((v) => (
+            <li key={v.idvendas} className="venda-item">
+              <span className="venda-data"> {v.data_venda ? new Date(v.data_venda).toLocaleDateString('pt-BR') : 'Sem data'} </span>
+              <div className="venda-info">
+                <span className="venda-quantidade">{v.quantidade}</span>
+                <span className="venda-divisor">•</span>
+                <span className="venda-valor"> $ {Number(v?.valor_total ?? 0).toFixed(2)} </span>
+              </div>
             </li>
           ))}
         </ul>
       )}
-    </section>
-  )
+    </div>
+  );
 }
 
-export default ProdutoList
+export default VendaList;
