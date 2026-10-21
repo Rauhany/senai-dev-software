@@ -9,6 +9,7 @@ public interface IProdutoRepository
     void Add(Produto produto);
     void Update(Produto produto);
     void Delete(int id);
+    Produto GetById(object produtoId);
 }
 
 

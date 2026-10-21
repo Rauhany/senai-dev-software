@@ -105,4 +105,9 @@ public class ProdutoRepository : IProdutoRepository
         cmd.Parameters.AddWithValue("@Id", id);
         cmd.ExecuteNonQuery();
     }
+
+    public Produto GetById(object produtoId)
+    {
+        throw new NotImplementedException();
+    }
 }

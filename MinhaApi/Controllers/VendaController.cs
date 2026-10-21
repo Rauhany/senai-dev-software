@@ -29,13 +29,24 @@ namespace MinhaApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] Venda venda) 
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+public IActionResult Create([FromBody] Venda venda) 
+{
+    if (!ModelState.IsValid)
+        return BadRequest(ModelState);
 
-            var criado = _service.Add(venda); 
-            return CreatedAtAction(nameof(GetById), new { id = criado.Id }, criado);
-        }
+    try 
+    {
+        var criado = _service.Add(venda); 
+        return CreatedAtAction(nameof(GetById), new { id = criado.Id }, criado);
+    }
+    catch (ArgumentException ex)
+    {
+        return BadRequest(new { mensagem = ex.Message });
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(500, new { mensagem = "Erro interno no servidor.", detalhe = ex.Message });
+    }
+}
     }
 }

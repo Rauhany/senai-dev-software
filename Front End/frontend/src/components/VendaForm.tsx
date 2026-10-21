@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { vendaService } from '../services/vendaService'
+import { vendaService} from '../services/vendaService'
 
 interface Props {
   onVendaCriada: () => void
@@ -7,8 +7,8 @@ interface Props {
 
 function VendaForm({ onVendaCriada }: Props) {
   const [quantidade, setQuantidade] = useState<number | null>(null)
-  const [idproduto, setidproduto] = useState<number | null>(null)
-  const [idcliente, setidcliente] = useState<number | null>(null)
+  const [produtoId, setProdutoId] = useState<number | null>(null)
+  const [clienteId, setClienteId] = useState<number | null>(null)
   const [loading, setLoading] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
 
@@ -17,10 +17,10 @@ function VendaForm({ onVendaCriada }: Props) {
     setErro(null)
     try {
       setLoading(true)
-      await vendaService.criar({quantidade, idproduto, idcliente })
+      await vendaService.criar({ quantidade, ProdutoId: produtoId, ClienteId: clienteId })
       setQuantidade(null)
-      setidproduto(null)
-      setidcliente(null)
+      setProdutoId(null)
+      setClienteId(null)
       onVendaCriada()
     } catch {
       setErro('Erro ao cadastrar. Tente novamente.')
@@ -65,10 +65,10 @@ return (
                 className="form-input"
                 type="number"
                 placeholder="Ex: 1"
-                value={idproduto || ''}
+                value={produtoId || ''}
                 onChange={e => {
                     if (erro) setErro(null)
-                    setidproduto(parseInt(e.target.value))
+                    setProdutoId(parseInt(e.target.value))
                 }}
                 disabled={loading}
                 required
@@ -82,10 +82,10 @@ return (
                 className="form-input"
                 type="number"
                 placeholder="Ex: 1"
-                value={idcliente || ''}
+                value={clienteId || ''}
                 onChange={e => {
                     if (erro) setErro(null)
-                    setidcliente(parseInt(e.target.value))
+                    setClienteId(parseInt(e.target.value))
                 }}
                 disabled={loading}
                 required

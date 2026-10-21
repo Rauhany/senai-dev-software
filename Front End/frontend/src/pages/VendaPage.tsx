@@ -39,5 +39,4 @@ function VendaPage() {
   )
 }
 
-// 2. Agora a exportação padrão vai funcionar corretamente
 export default VendaPage

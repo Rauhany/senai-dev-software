@@ -93,4 +93,9 @@ public class ClienteRepository : IClienteRepository
         cmd.Parameters.AddWithValue("@Id", id);
         cmd.ExecuteNonQuery();
     }
+
+    public object GetById(object clienteId)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -11,21 +11,43 @@ function VendaList({ vendas, loading }: Props) {
 
   return (
     <div className="venda-card-box">
-      <h2 className="secao-titulo-venda">Vendas Cadastradas</h2>
+      <h2 className="secao-titulo-venda">
+        Vendas Cadastradas
+      </h2>
 
       {loading ? (
         <p className="venda-vazio">A carregar...</p>
       ) : listaVendas.length === 0 ? (
-        <p className="venda-vazio">Nenhuma venda cadastrada ainda.</p>
+        <p className="venda-vazio">
+          Nenhuma venda cadastrada ainda.
+        </p>
       ) : (
         <ul className="venda-lista">
-          {listaVendas.map((v) => (
-            <li key={v.idvendas} className="venda-item">
-              <span className="venda-data"> {v.data_venda ? new Date(v.data_venda).toLocaleDateString('pt-BR') : 'Sem data'} </span>
+          {listaVendas.map((venda, index) => (
+            <li
+              key={
+                venda.idvendas != null
+                  ? String(venda.idvendas)
+                  : `venda-${index}`
+              }
+              className="venda-item"
+            >
+              <span className="venda-data">
+                {venda.data_venda
+                  ? new Date(venda.data_venda).toLocaleDateString('pt-BR')
+                  : 'Sem data'}
+              </span>
+
               <div className="venda-info">
-                <span className="venda-quantidade">{v.quantidade}</span>
+                <span className="venda-quantidade">
+                  {venda.quantidade}
+                </span>
+
                 <span className="venda-divisor">•</span>
-                <span className="venda-valor"> $ {Number(v?.valor_total ?? 0).toFixed(2)} </span>
+
+                <span className="venda-valor">
+                  $ {Number(venda.valor_total ?? 0).toFixed(2)}
+                </span>
               </div>
             </li>
           ))}
