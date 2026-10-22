@@ -1,22 +1,76 @@
-import type { Venda } from '../types/Venda';
-import './cliente.css';
+import type { Venda } from '../types/Venda'
+import './cliente.css'
+
+interface VendaComCliente extends Venda {
+  Cliente?: {
+    nome?: string
+    Nome?: string
+  } | null
+  cliente?: {
+    nome?: string
+    Nome?: string
+  } | null
+  nome_cliente?: string
+  cliente_nome?: string
+}
 
 interface Props {
-  vendas: Venda[];
-  loading: boolean;
+  vendas: Venda[]
+  loading: boolean
 }
 
 function VendaList({ vendas, loading }: Props) {
-  const listaVendas = Array.isArray(vendas) ? vendas : [];
+  const listaVendas = Array.isArray(vendas)
+    ? (vendas as VendaComCliente[])
+    : []
+
+  const formatarMoeda = (valor: number | string | null | undefined) => {
+    const numero = Number(valor ?? 0)
+
+    return (Number.isFinite(numero) ? numero : 0).toLocaleString(
+      'pt-BR',
+      {
+        style: 'currency',
+        currency: 'BRL',
+      }
+    )
+  }
+
+  const formatarData = (data: Date | string | null | undefined) => {
+    if (!data) return 'Data não informada'
+
+    const dataConvertida = new Date(data)
+
+    if (Number.isNaN(dataConvertida.getTime())) {
+      return 'Data inválida'
+    }
+
+    return dataConvertida.toLocaleDateString('pt-BR')
+  }
+
+  const obterNomeCliente = (venda: VendaComCliente) => {
+    return (
+      venda.Cliente?.nome ||
+      venda.Cliente?.Nome ||
+      venda.cliente?.nome ||
+      venda.cliente?.Nome ||
+      venda.nome_cliente ||
+      venda.cliente_nome ||
+      (venda.ClienteId
+        ? `Cliente #${venda.ClienteId}`
+        : 'Cliente não identificado')
+    )
+  }
 
   return (
-    <div className="venda-card-box">
-      <h2 className="secao-titulo-venda">
-        Vendas Cadastradas
-      </h2>
+    <section className="venda-card-box">
+      <header className="secao-titulo-venda">
+        <h2>Vendas cadastradas</h2>
+        <span>{listaVendas.length} registro(s)</span>
+      </header>
 
       {loading ? (
-        <p className="venda-vazio">A carregar...</p>
+        <p className="venda-vazio">Carregando vendas...</p>
       ) : listaVendas.length === 0 ? (
         <p className="venda-vazio">
           Nenhuma venda cadastrada ainda.
@@ -25,36 +79,30 @@ function VendaList({ vendas, loading }: Props) {
         <ul className="venda-lista">
           {listaVendas.map((venda, index) => (
             <li
-              key={
-                venda.idvendas != null
-                  ? String(venda.idvendas)
-                  : `venda-${index}`
-              }
+              key={venda.idvendas ?? `venda-${index}`}
               className="venda-item"
             >
-              <span className="venda-data">
-                {venda.data_venda
-                  ? new Date(venda.data_venda).toLocaleDateString('pt-BR')
-                  : 'Sem data'}
-              </span>
-
-              <div className="venda-info">
-                <span className="venda-quantidade">
-                  {venda.quantidade}
+              <div className="venda-detalhes">
+                <span className="venda-cliente">
+                  {obterNomeCliente(venda)}
                 </span>
 
-                <span className="venda-divisor">•</span>
+                <span className="venda-data">
+                  {formatarData(venda.data_venda)}
+                </span>
+              </div>
 
+              <div className="venda-info">
                 <span className="venda-valor">
-                  $ {Number(venda.valor_total ?? 0).toFixed(2)}
+                  {formatarMoeda(venda.valor_total)}
                 </span>
               </div>
             </li>
           ))}
         </ul>
       )}
-    </div>
-  );
+    </section>
+  )
 }
 
-export default VendaList;
+export default VendaList

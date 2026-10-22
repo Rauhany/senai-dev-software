@@ -1,22 +1,87 @@
+
 :root {
-  --bg-main: #1e2430;
-  --bg-sidebar: #153c5a;
-  --bg-card: #272d39;
-  --color-text-main: #ffffff;
-  --color-text-muted: #9ba1a6;
-  --color-primary: #e6d36e; /* Amarelo do botão */
-  --border-color: #3b4252;
+  /* Cores principais */
+  --cor-fundo: #0B1120;
+  --cor-painel: #111827;
+  --cor-cartao: #1F2937;
+  --cor-borda: #29384F;
+
+  /* Destaques */
+  --cor-principal: #2563EB;
+  --cor-hover: #3B82F6;
+
+  /* Textos */
+  --cor-texto: #F1F5F9;
+  --cor-texto-secundario: #94A3B8;
+
+  /* Estados */
+  --cor-sucesso: #10B981;
+
+  /* Acabamento */
+  --raio: 12px;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
-  background-color: var(--bg-main);
-  color: var(--color-text-main);
-  font-family: 'Inter', sans-serif; /* Use a fonte da sua preferência */
   margin: 0;
-  display: flex;
+  min-height: 100vh;
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-family: Inter, "Segoe UI", sans-serif;
 }
-#root {
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+input {
+  background: var(--cor-cartao);
+  color: var(--cor-texto);
+  border: 1px solid var(--cor-borda);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+
+input:focus {
+  outline: 2px solid var(--cor-principal);
+  outline-offset: 1px;
+}
+.app-layout {
   display: flex;
   min-height: 100vh;
-  width: 100%;
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+}
+
+.app-main {
+  flex: 1;
+  min-width: 0;
+  padding: 32px;
+  background:
+    radial-gradient(
+      ellipse at top right,
+      rgba(37, 99, 235, 0.09),
+      transparent 45%
+    ),
+    var(--cor-fundo);
+}
+
+@media (max-width: 768px) {
+  .app-layout {
+    flex-direction: column;
+  }
+
+  .app-main {
+    padding: 18px;
+  }
 }

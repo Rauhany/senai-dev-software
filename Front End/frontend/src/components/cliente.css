@@ -1,0 +1,156 @@
+
+.venda-card-box {
+  background: var(--cor-painel);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  padding: 24px;
+  width: 100%;
+}
+
+.secao-titulo-venda {
+  color: var(--cor-texto);
+  font-size: 22px;
+  margin: 0 0 20px;
+}
+
+.venda-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.venda-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px;
+  margin-bottom: 10px;
+  background: var(--cor-cartao);
+  border: 1px solid var(--cor-borda);
+  border-radius: 10px;
+  transition: border-color 0.2s ease;
+}
+
+.venda-item:hover {
+  border-color: var(--cor-principal);
+}
+
+.venda-data,
+.venda-quantidade {
+  color: var(--cor-texto-secundario);
+}
+
+.venda-valor {
+  color: #60A5FA;
+  font-weight: 700;
+}
+
+.venda-divisor {
+  color: var(--cor-texto-secundario);
+}
+.venda-card-box {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 22px;
+  background: #111827;
+  border: 1px solid #29384f;
+  border-radius: 14px;
+  color: #f8fafc;
+}
+
+.secao-titulo-venda {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.secao-titulo-venda h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.secao-titulo-venda > span {
+  color: #60a5fa;
+  font-size: 12px;
+}
+
+.venda-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.venda-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  background: #1f2937;
+  border: 1px solid #29384f;
+  border-radius: 10px;
+  transition: border-color 0.2s;
+}
+
+.venda-item:hover {
+  border-color: #3b82f6;
+}
+
+.venda-detalhes {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.venda-cliente {
+  color: #f1f5f9;
+  font-size: 14px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.venda-data {
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.venda-info {
+  flex-shrink: 0;
+}
+
+.venda-valor {
+  color: #60a5fa;
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.venda-vazio {
+  padding: 24px 12px;
+  color: #94a3b8;
+  text-align: center;
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .venda-card-box {
+    padding: 16px;
+  }
+
+  .venda-item {
+    padding: 12px;
+  }
+
+  .venda-valor {
+    font-size: 13px;
+  }
+}

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type {Produto } from '../types/Produto'
+import type { Produto } from '../types/Produto'
 
 interface Props {
   produtos: Produto[]
@@ -9,42 +9,96 @@ interface Props {
 function ProdutoList({ produtos, loading }: Props) {
   const [busca, setBusca] = useState('')
 
-  // Filtra os produtos com base na digitação
-  const produtosFiltrados = produtos.filter(p => 
-    p.nome.toLowerCase().includes(busca.toLowerCase())
+  const produtosFiltrados = produtos.filter(p =>
+    p.nome.toLowerCase().includes(busca.toLowerCase().trim())
   )
 
+  const formatarPreco = (preco: number) =>
+    Number(preco).toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    })
+
   return (
-    <section className="card">
+    <section className="card produto-list-card">
       <div className="card-header list-header">
-        <h2>Produtos cadastrados</h2>
-        <span className="badge">LISTA</span>
+        <div>
+          <span className="form-overline">SEU ESTOQUE</span>
+          <h2>Produtos cadastrados</h2>
+          <p>Consulte e encontre seus produtos rapidamente.</p>
+        </div>
+
+        <span className="badge">
+          {produtos.length} {produtos.length === 1 ? 'ITEM' : 'ITENS'}
+        </span>
       </div>
 
       <div className="search-bar">
-        <input 
-          type="text" 
-          placeholder="🔍 Buscar na lista..." 
+        <span className="search-icon" aria-hidden="true">⌕</span>
+        <input
+          type="text"
+          aria-label="Buscar produtos"
+          placeholder="Buscar produto pelo nome..."
           value={busca}
-          onChange={(e) => setBusca(e.target.value)}
+          onChange={e => setBusca(e.target.value)}
         />
+
+        {busca && (
+          <button
+            type="button"
+            className="clear-search"
+            onClick={() => setBusca('')}
+            aria-label="Limpar busca"
+          >
+            ×
+          </button>
+        )}
       </div>
 
       {loading ? (
-        <p className="list-msg">Carregando produtos...</p>
+        <div className="list-msg">
+          <span className="loading-dot" />
+          Carregando produtos...
+        </div>
       ) : produtosFiltrados.length === 0 ? (
-        <p className="list-msg">Nenhum produto encontrado.</p>
+        <div className="list-empty">
+          <span className="empty-icon" aria-hidden="true">⌕</span>
+          <h3>
+            {busca ? 'Nenhum resultado encontrado' : 'Seu catálogo está vazio'}
+          </h3>
+          <p>
+            {busca
+              ? 'Tente buscar por outro nome.'
+              : 'Cadastre seu primeiro produto para começar.'}
+          </p>
+        </div>
       ) : (
         <ul className="product-list">
           {produtosFiltrados.map(p => (
             <li key={p.id} className="product-item">
-              <span className="product-name">{p.nome}</span>
+              <div className="product-info">
+                <span className="product-avatar" aria-hidden="true">▦</span>
+                <div className="product-details">
+                  <span className="product-name">{p.nome}</span>
+                  <span className="product-id">
+                    Código: {p.id ?? '—'}
+                  </span>
+                </div>
+              </div>
+
               <span className="product-price">
-                R$ {Number(p.preco).toFixed(2).replace('.', ',')}
+                {formatarPreco(Number(p.preco))}
               </span>
             </li>
           ))}
         </ul>
+      )}
+
+      {!loading && produtosFiltrados.length > 0 && (
+        <div className="list-footer">
+          Exibindo <strong>{produtosFiltrados.length}</strong>
+          {' '}de <strong>{produtos.length}</strong> produtos
+        </div>
       )}
     </section>
   )

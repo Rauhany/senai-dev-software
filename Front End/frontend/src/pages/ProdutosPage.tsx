@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { Produto } from '../types/Produto'
-import {  produtoService } from '../services/produtoService'
+import { produtoService } from '../services/produtoService'
 import ProdutoForm from '../components/ProdutoForm'
 import ProdutoList from '../components/produtoList'
 import '../components/produto.css'
@@ -13,12 +13,19 @@ function ProdutosPage() {
   const carregarProdutos = async () => {
     try {
       setLoading(true)
+      setErro(null)
       setProdutos(await produtoService.listar())
-    } catch { setErro('Erro ao carregar produtos.') }
-    finally { setLoading(false) }
+    } catch (error) {
+      console.error('Erro ao carregar produtos:', error)
+      setErro('Erro ao carregar produtos.')
+    } finally {
+      setLoading(false)
+    }
   }
 
-  useEffect(() => { carregarProdutos() }, [])
+  useEffect(() => {
+    void carregarProdutos()
+  }, [])
 
   return (
     <main className="page-container">
@@ -30,8 +37,17 @@ function ProdutosPage() {
 
       <div className="content-grid">
         <ProdutoForm onProdutoCriado={carregarProdutos} />
-        {erro && <p style={{ color: '#ff6b6b' }}>{erro}</p>}
-        <ProdutoList produtos={produtos} loading={loading} />
+
+        {erro && (
+          <p className="mensagem-erro" role="alert">
+            {erro}
+          </p>
+        )}
+
+        <ProdutoList
+          produtos={produtos}
+          loading={loading}
+        />
       </div>
     </main>
   )

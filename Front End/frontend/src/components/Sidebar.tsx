@@ -7,7 +7,7 @@ function Sidebar() {
       <div className="sidebar-header">
         <div className="logo-container">
           <div className="logo-box">
-            <span className="logo-icon">📦</span>
+            <span className="logo-icon">🎮</span>
           </div>
           <h2>MinhaApp</h2>
         </div>
@@ -19,7 +19,7 @@ function Sidebar() {
           to="/produtos" 
           className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}
         >
-          <span className="icon">📦</span> Produtos
+          <span className="icon">🎮</span> Produtos
         </NavLink>
         
         <NavLink 
