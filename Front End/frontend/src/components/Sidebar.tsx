@@ -1,7 +1,10 @@
 import { NavLink } from 'react-router-dom'
 import './sidebar.css'
+import { useAuth } from '../context/AuthContext'
 
+  
 function Sidebar() {
+  const { user, logout } = useAuth()
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
@@ -36,8 +39,15 @@ function Sidebar() {
         >
           <span className="icon">🛒</span> Vendas
         </NavLink>
+
+        <div style={{ padding: '20px', color: 'white', fontSize: '13px' }}>
+  <p>👤 {user?.nome}</p>
+  <button onClick={logout}>🚪 Sair</button>
+</div>
       </nav>
     </aside>
+
+    
   )
 }
 
