@@ -17,7 +17,7 @@ function VendaForm({ onVendaCriada }: Props) {
     setErro(null)
     try {
       setLoading(true)
-      await vendaService.criar({ quantidade, ProdutoId: produtoId, ClienteId: clienteId })
+      await vendaService.criar({ quantidade, produtoId: produtoId, clienteId: clienteId })
       setQuantidade(null)
       setProdutoId(null)
       setClienteId(null)

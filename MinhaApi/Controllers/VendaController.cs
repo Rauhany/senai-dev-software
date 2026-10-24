@@ -1,10 +1,12 @@
 using MinhaApi.Models;
 using MinhaApi.Services; 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 namespace MinhaApi.Controllers 
 
 
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class VendaController : ControllerBase

@@ -78,3 +78,686 @@
     padding: 16px;
   }
 }
+
+
+/* ===== PÁGINA DE CLIENTES ===== */
+
+.clientes-page {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.clientes-page,
+.clientes-page * {
+  box-sizing: border-box;
+}
+
+.clientes-page .page-header {
+  margin-bottom: 28px;
+}
+
+.clientes-conteudo {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 24px;
+  width: 100%;
+}
+
+/* Cartões do formulário e da lista */
+
+.clientes-form-card,
+.clientes-list-card {
+  width: 100%;
+  min-width: 0;
+  padding: 24px;
+  background: var(--cor-painel, #111827);
+  border: 1px solid var(--cor-borda, #29384f);
+  border-radius: 16px;
+  color: var(--cor-texto, #f8fafc);
+}
+
+/* Formulário: rótulo acima de cada campo */
+
+.clientes-form-card form {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: end;
+  gap: 20px;
+  width: 100%;
+}
+
+.clientes-form-card form label {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 9px;
+  min-width: 0;
+  color: var(--cor-texto, #f8fafc);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.clientes-form-card form input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  padding: 12px 14px;
+  color: var(--cor-texto, #f8fafc);
+  background: var(--cor-fundo, #0b1120);
+  border: 1px solid var(--cor-borda, #29384f);
+  border-radius: 9px;
+  font: inherit;
+  font-weight: 400;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.clientes-form-card form input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgb(59 130 246 / 15%);
+}
+
+.clientes-form-card form button {
+  min-height: 46px;
+  padding: 12px 20px;
+  color: #fff;
+  background: #2563eb;
+  border: none;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.clientes-form-card form button:hover {
+  background: #1d4ed8;
+}
+
+.clientes-form-card form button:active {
+  transform: scale(0.98);
+}
+
+/* Lista de clientes */
+
+.clientes-list-card ul {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0;
+  margin: 16px 0 0;
+  list-style: none;
+}
+
+.clientes-list-card li {
+  padding: 16px 18px;
+  background: var(--cor-cartao, #1f2937);
+  border: 1px solid var(--cor-borda, #29384f);
+  border-radius: 12px;
+  overflow-wrap: anywhere;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.clientes-list-card li:hover {
+  border-color: #3b82f6;
+  transform: translateY(-1px);
+}
+
+/* Telas menores */
+
+@media (max-width: 850px) {
+  .clientes-form-card form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .clientes-form-card,
+  .clientes-list-card {
+    padding: 16px;
+  }
+
+  .clientes-form-card form {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .clientes-form-card form button {
+    width: 100%;
+  }
+}
+
+
+.clientes-form-card,
+.clientes-list-card {
+  width: 100%;
+  min-width: 0;
+  padding: 26px;
+  background: var(--cor-painel, #111827);
+  color: var(--cor-texto, #f8fafc);
+  border: 1px solid var(--cor-borda, #29384f);
+  border-radius: 16px;
+}
+
+/* Cabeçalho do formulário */
+
+.cliente-form-header {
+  margin-bottom: 24px;
+}
+
+.cliente-form-header h2,
+.clientes-lista-header h2,
+.clientes-lista > h2 {
+  margin: 8px 0;
+  font-size: 21px;
+  color: var(--cor-texto, #f8fafc);
+}
+
+.cliente-form-header p,
+.clientes-lista-header p {
+  margin: 0;
+  color: var(--cor-texto-secundario, #94a3b8);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.cliente-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  width: 100%;
+}
+
+.cliente-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  width: 100%;
+}
+
+.cliente-campo {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  min-width: 0;
+}
+
+.cliente-campo label {
+  display: block;
+  color: var(--cor-texto, #f8fafc);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.cliente-campo input {
+  width: 100%;
+  min-width: 0;
+  height: 48px;
+  padding: 0 14px;
+  color: var(--cor-texto, #f8fafc);
+  background: var(--cor-fundo, #0b1120);
+  border: 1px solid var(--cor-borda, #29384f);
+  border-radius: 9px;
+  outline: none;
+  font: inherit;
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.cliente-campo input::placeholder {
+  color: #64748b;
+}
+
+.cliente-campo input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgb(59 130 246 / 15%);
+}
+
+.cliente-form-acoes {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.cliente-form-acoes button {
+  min-height: 46px;
+  padding: 0 22px;
+  color: #fff;
+  background: #2563eb;
+  border: none;
+  border-radius: 9px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.cliente-form-acoes button:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.cliente-form-acoes button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.cliente-form-acoes button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.cliente-form-erro {
+  margin: 0;
+  padding: 12px 14px;
+  color: #fca5a5;
+  background: rgb(239 68 68 / 10%);
+  border: 1px solid rgb(239 68 68 / 30%);
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+/* ===== LISTA DE CLIENTES ===== */
+
+.clientes-lista {
+  width: 100%;
+  min-width: 0;
+}
+
+.clientes-lista-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.clientes-lista-header h2 {
+  margin-top: 8px;
+}
+
+.clientes-contador {
+  padding: 9px 13px;
+  color: #60a5fa;
+  background: rgb(37 99 235 / 12%);
+  border: 1px solid rgb(59 130 246 / 30%);
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.clientes-lista-itens {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: none;
+}
+
+.cliente-item {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  min-width: 0;
+  padding: 18px;
+  background: var(--cor-cartao, #1f2937);
+  border: 1px solid var(--cor-borda, #29384f);
+  border-radius: 12px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.cliente-item:hover {
+  border-color: #3b82f6;
+  transform: translateY(-1px);
+}
+
+.cliente-numero {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  color: #93c5fd;
+  background: rgb(37 99 235 / 15%);
+  border: 1px solid rgb(59 130 246 / 25%);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.cliente-item-dados {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  min-width: 0;
+}
+
+.cliente-item-nome {
+  color: var(--cor-texto, #f8fafc);
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+
+.cliente-item-email,
+.cliente-item-cpf {
+  color: var(--cor-texto-secundario, #94a3b8);
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.cliente-item-email {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+}
+
+.cliente-item-email span {
+  color: #60a5fa;
+}
+
+.clientes-lista-vazia,
+.clientes-lista-mensagem {
+  padding: 28px 16px;
+  color: var(--cor-texto-secundario, #94a3b8);
+  text-align: center;
+}
+
+.clientes-lista-vazia > span {
+  color: #60a5fa;
+  font-size: 30px;
+}
+
+.clientes-lista-vazia p {
+  margin-bottom: 8px;
+  color: var(--cor-texto, #f8fafc);
+  font-weight: 600;
+}
+
+.clientes-lista-vazia small {
+  line-height: 1.6;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+
+@media (max-width: 900px) {
+  .cliente-form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .clientes-form-card,
+  .clientes-list-card {
+    padding: 18px;
+  }
+
+  .cliente-form-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .clientes-lista-header {
+    align-items: flex-start;
+  }
+
+  .cliente-item {
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .cliente-numero {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+
+/* Centraliza a área de conteúdo da página de clientes */
+.pagina-centralizada {
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 32px;
+}
+
+/* Centraliza o formulário e a lista na página */
+.conteudo-centralizado {
+  width: 100%;
+  max-width: 1100px;
+  margin: 32px auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 24px;
+  box-sizing: border-box;
+}
+
+/* Organiza o formulário */
+.conteudo-centralizado form {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* Mantém os campos alinhados e espaçados */
+.conteudo-centralizado form label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.conteudo-centralizado form input {
+  box-sizing: border-box;
+  max-width: 100%;
+  margin-bottom: 18px;
+}
+
+/* Ajuste para telas menores */
+@media (max-width: 600px) {
+  .pagina-centralizada {
+    padding: 16px;
+  }
+
+  .conteudo-centralizado {
+    margin-top: 24px;
+  }
+}
+
+/* Formulário de cadastro de vendas */
+.venda-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 24px;
+  margin-bottom: 32px;
+  background: #111827;
+  border: 1px solid #29384f;
+  border-radius: 14px;
+}
+
+/* Título do formulário */
+.venda-form h2 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+
+/* Cada linha: texto + campo */
+.venda-form .campo-venda {
+  display: grid;
+  grid-template-columns: 140px minmax(180px, 260px);
+  align-items: center;
+  column-gap: 18px;
+  width: 100%;
+  max-width: 460px;
+}
+
+/* Textos dos campos */
+.venda-form label {
+  display: block;
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* Caixas para digitar */
+.venda-form input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  background: #0f172a;
+  color: #f8fafc;
+  font-size: 14px;
+}
+
+/* Botão de cadastro */
+.venda-form button {
+  margin-top: 8px;
+  padding: 11px 22px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Separação entre formulário e tabela */
+.venda-lista-container {
+  margin-top: 32px;
+}
+
+/* Ajuste para celulares */
+@media (max-width: 520px) {
+  .venda-form {
+    padding: 16px;
+  }
+
+  .venda-form .campo-venda {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .venda-form input {
+    max-width: 100%;
+  }
+}
+
+
+/* Formulário de vendas */
+.venda-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  margin-top: 24px;
+  width: 100%;
+}
+
+/* Rótulo e campo lado a lado */
+.venda-form .form-group {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 260px);
+  align-items: center;
+  column-gap: 20px;
+  width: 100%;
+  max-width: 440px;
+}
+
+/* Texto dos campos */
+.venda-form .form-group label {
+  display: block;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+/* Caixas de digitação */
+.venda-form .form-input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  background: #111827;
+  color: #f8fafc;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Destaque ao selecionar um campo */
+.venda-form .form-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgb(59 130 246 / 15%);
+}
+
+/* Botão de cadastro */
+.venda-form .btn-cadastrar-venda {
+  margin-top: 8px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.venda-form .btn-cadastrar-venda:hover:not(:disabled) {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.venda-form .btn-cadastrar-venda:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Espaço e acabamento do cartão */
+.venda-card-box {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 28px;
+  border-radius: 14px;
+}
+
+.venda-card-box .secao-titulo-venda {
+  margin: 0;
+}
+
+/* Layout para celular */
+@media (max-width: 520px) {
+  .venda-card-box {
+    padding: 18px;
+  }
+
+  .venda-form .form-group {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .venda-form .form-input {
+    max-width: 100%;
+  }
+
+  .venda-form .btn-cadastrar-venda {
+    width: 100%;
+  }
+}
+
+

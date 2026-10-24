@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react'
 import type { Cliente } from '../types/Cliente'
 import { clienteService } from '../services/clienteService'
@@ -41,29 +42,31 @@ function ClientesPage() {
   }, [])
 
   return (
-    <main className="pagina-centralizada">
-      <header className="page-header">
-        <span className="overline">PAINEL DE GESTÃO</span>
-        <h1>Gestão de Clientes</h1>
-        <p>Cadastre, encontre e gerencie seus clientes em um só lugar.</p>
-      </header>
+  <main className="clientes-page">
+    <header className="page-header">
+      <span className="overline">PAINEL DE GESTÃO</span>
+      <h1>Gestão de Clientes</h1>
+      <p>
+        Cadastre, encontre e gerencie seus clientes em um só lugar.
+      </p>
+    </header>
 
-      <div className="conteudo-centralizado">
-        {erro && (
-          <p className="mensagem-erro" role="alert">
-            {erro}
-          </p>
-        )}
+    <div className="clientes-conteudo">
+      {erro && (
+        <p className="mensagem-erro" role="alert">
+          {erro}
+        </p>
+      )}
 
-        <ClienteForm onClienteCriado={carregarClientes} />
+      <ClienteForm onClienteCriado={carregarClientes} />
 
-        <ClienteList
-          clientes={clientes}
-          loading={loading}
-        />
-      </div>
-    </main>
-  )
+      <ClienteList
+        clientes={clientes}
+        loading={loading}
+      />
+    </div>
+  </main>
+)
 }
 
 export default ClientesPage

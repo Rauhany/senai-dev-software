@@ -1,3 +1,4 @@
+
 import { useState } from 'react'
 import type { Produto } from '../types/Produto'
 
@@ -35,6 +36,7 @@ function ProdutoList({ produtos, loading }: Props) {
 
       <div className="search-bar">
         <span className="search-icon" aria-hidden="true">⌕</span>
+
         <input
           type="text"
           aria-label="Buscar produtos"
@@ -63,9 +65,11 @@ function ProdutoList({ produtos, loading }: Props) {
       ) : produtosFiltrados.length === 0 ? (
         <div className="list-empty">
           <span className="empty-icon" aria-hidden="true">⌕</span>
+
           <h3>
             {busca ? 'Nenhum resultado encontrado' : 'Seu catálogo está vazio'}
           </h3>
+
           <p>
             {busca
               ? 'Tente buscar por outro nome.'
@@ -77,10 +81,32 @@ function ProdutoList({ produtos, loading }: Props) {
           {produtosFiltrados.map(p => (
             <li key={p.id} className="product-item">
               <div className="product-info">
-                <span className="product-avatar" aria-hidden="true">▦</span>
-                <div className="product-details">
-                  <span className="product-name">{p.nome}</span>
-                  <span className="product-id">
+                <span className="product-avatar" aria-hidden="true">
+                  ▦
+                </span>
+
+                <div
+                  className="product-details"
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                    gap: '6px',
+                  }}
+                >
+                  <span className="product-name">
+                    {p.nome}
+                  </span>
+
+                  <span
+                    className="product-id"
+                    style={{
+                      display: 'inline-block',
+                      marginTop: '2px',
+                      color: '#94a3b8',
+                      fontSize: '13px',
+                    }}
+                  >
                     Código: {p.id ?? '—'}
                   </span>
                 </div>

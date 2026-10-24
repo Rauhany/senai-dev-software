@@ -32,9 +32,11 @@ function VendaPage() {
   
   return (
     <div>
-      <h1>Gestão de Vendas</h1>
-      <VendaForm onVendaCriada={carregarVendas} />
-      <VendaList vendas={vendas} loading={loading} />
+    <VendaForm onVendaCriada={carregarVendas} />
+
+<div className="venda-lista-container">
+  <VendaList vendas={vendas} loading={loading} />
+</div>
     </div>
   )
 }
