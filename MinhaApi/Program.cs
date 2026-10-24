@@ -71,6 +71,7 @@ builder.Services.AddScoped<IDepartamentoService, DepartamentoService>();
 // ===== Construção da aplicação =====
 var app = builder.Build();
 
+
 // ===== Swagger =====
 if (app.Environment.IsDevelopment())
 {

@@ -1,108 +1,90 @@
-import type { Venda } from '../types/Venda'
-import './cliente.css'
 
-interface VendaComCliente extends Venda {
-  Cliente?: {
-    nome?: string
-    Nome?: string
-  } | null
-  cliente?: {
-    nome?: string
-    Nome?: string
-  } | null
-  nome_cliente?: string
-  cliente_nome?: string
+import type { Venda } from "../types/Venda";
+
+interface VendaListProps {
+  vendas: Venda[];
+  loading: boolean;
 }
 
-interface Props {
-  vendas: Venda[]
-  loading: boolean
-}
+export default function VendaList({
+  vendas,
+  loading,
+}: VendaListProps) {
+  const moeda = (valor: number) =>
+    Number(valor).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
 
-function VendaList({ vendas, loading }: Props) {
-  const listaVendas = Array.isArray(vendas)
-    ? (vendas as VendaComCliente[])
-    : []
-
-  const formatarMoeda = (valor: number | string | null | undefined) => {
-    const numero = Number(valor ?? 0)
-
-    return (Number.isFinite(numero) ? numero : 0).toLocaleString(
-      'pt-BR',
-      {
-        style: 'currency',
-        currency: 'BRL',
-      }
-    )
-  }
-
-  const formatarData = (data: Date | string | null | undefined) => {
-    if (!data) return 'Data não informada'
-
-    const dataConvertida = new Date(data)
-
-    if (Number.isNaN(dataConvertida.getTime())) {
-      return 'Data inválida'
+  const dataFormatada = (data: string) => {
+    if (!data || data.startsWith("0001-01-01")) {
+      return "Data não informada";
     }
 
-    return dataConvertida.toLocaleDateString('pt-BR')
+    const dataObj = new Date(data);
+
+    if (Number.isNaN(dataObj.getTime())) {
+      return "Data inválida";
+    }
+
+    return dataObj.toLocaleString("pt-BR");
+  };
+
+  if (loading) {
+    return <p>Carregando vendas...</p>;
   }
 
-  const obterNomeCliente = (venda: VendaComCliente) => {
-    return (
-      venda.Cliente?.nome ||
-      venda.Cliente?.Nome ||
-      venda.cliente?.nome ||
-      venda.cliente?.Nome ||
-      venda.nome_cliente ||
-      venda.cliente_nome ||
-      (venda.ClienteId
-        ? `Cliente #${venda.ClienteId}`
-        : 'Cliente não identificado')
-    )
+  if (vendas.length === 0) {
+    return <p>Nenhuma venda cadastrada.</p>;
   }
 
   return (
-    <section className="venda-card-box">
-      <header className="secao-titulo-venda">
-        <h2>Vendas cadastradas</h2>
-        <span>{listaVendas.length} registro(s)</span>
-      </header>
+    <section>
+      <h2>Vendas cadastradas ({vendas.length})</h2>
 
-      {loading ? (
-        <p className="venda-vazio">Carregando vendas...</p>
-      ) : listaVendas.length === 0 ? (
-        <p className="venda-vazio">
-          Nenhuma venda cadastrada ainda.
-        </p>
-      ) : (
-        <ul className="venda-lista">
-          {listaVendas.map((venda, index) => (
-            <li
-              key={venda.idvendas ?? `venda-${index}`}
-              className="venda-item"
-            >
-              <div className="venda-detalhes">
-                <span className="venda-cliente">
-                  {obterNomeCliente(venda)}
-                </span>
+      <div style={{ overflowX: "auto" }}>
+        <table
+          style={{
+            width: "100%",
+            borderCollapse: "collapse",
+            textAlign: "left",
+          }}
+        >
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Data da venda</th>
+              <th>Cliente</th>
+              <th>E-mail</th>
+              <th>Produto</th>
+              <th>Quantidade</th>
+              <th>Valor total</th>
+            </tr>
+          </thead>
 
-                <span className="venda-data">
-                  {formatarData(venda.data_venda)}
-                </span>
-              </div>
-
-              <div className="venda-info">
-                <span className="venda-valor">
-                  {formatarMoeda(venda.valor_total)}
-                </span>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
+          <tbody>
+            {vendas.map((venda) => (
+              <tr key={venda.id}>
+                <td>{venda.id}</td>
+                <td>{dataFormatada(venda.dataVenda)}</td>
+                <td>
+                  {venda.nomeCliente || "Cliente não identificado"}
+                  <br />
+                  <small>ID: {venda.clienteId}</small>
+                </td>
+                <td>{venda.emailCliente || "E-mail não informado"}</td>
+                <td>
+                  {venda.nomeProduto || "Produto não identificado"}
+                  <br />
+                  <small>ID: {venda.produtoId}</small>
+                </td>
+                <td>{venda.quantidade}</td>
+                <td>{moeda(venda.valorTotal)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </section>
-  )
+  );
 }
-
-export default VendaList

@@ -6,8 +6,9 @@ public class UsuarioRepository : IUsuarioRepository
     private readonly string _cs;
 
     public UsuarioRepository(IConfiguration config)
-        => _cs = config.GetConnectionString("Default")!;
-
+      => _cs = config.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException(
+        "Connection string 'DefaultConnection' não encontrada.");
     public Usuario? BuscarPorEmail(string email)
     {
         using var conn = new MySqlConnection(_cs);

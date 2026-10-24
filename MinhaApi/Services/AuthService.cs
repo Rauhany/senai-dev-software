@@ -19,6 +19,7 @@ public class AuthService : IAuthService
         // 1. Busca o usuário ativo pelo e-mail
         var usuario = _repo.BuscarPorEmail(req.Email)
             ?? throw new UnauthorizedAccessException("Credenciais inválidas.");
+            
 
         // 2. Compara a senha digitada com o hash do banco
         bool senhaOk = BCrypt.Net.BCrypt.Verify(req.Senha, usuario.SenhaHash);

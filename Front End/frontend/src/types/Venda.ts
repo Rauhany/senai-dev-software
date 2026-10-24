@@ -1,10 +1,17 @@
+
 export interface Venda {
-  idvendas: number;
-  data_venda: Date;
-  valor_total: number;
-  ProdutoId: number;
-  ClienteId: number;
+  id: number;
+  dataVenda: string;
+  valorTotal: number;
   quantidade: number;
+  produtoId: number;
+  clienteId: number;
+  nomeProduto: string;
+  nomeCliente: string;
+  emailCliente: string;
 }
 
-export type NovaVenda = Omit<Venda, 'idvendas' | 'data_venda' | 'valor_total'>;
+export type NovaVenda = Pick<
+  Venda,
+  "quantidade" | "produtoId" | "clienteId"
+>;

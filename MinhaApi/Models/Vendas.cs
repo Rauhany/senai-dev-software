@@ -1,3 +1,4 @@
+
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,13 +13,13 @@ public class Venda
     public int Id { get; set; }
 
     [Column("data_venda")]
-    public DateTime DataVenda { get; set; } = DateTime.MinValue;
+    public DateTime DataVenda { get; set; }
 
     [Column("valor_total")]
-    public decimal ValorTotal { get; set; } 
+    public decimal ValorTotal { get; set; }
 
     [Column("quantidade")]
-    public int Quantidade { get; set; } 
+    public int Quantidade { get; set; }
 
     [Column("idproduto")]
     public int ProdutoId { get; set; }
@@ -31,4 +32,7 @@ public class Venda
 
     [NotMapped]
     public string NomeCliente { get; set; } = string.Empty;
+
+    [NotMapped]
+    public string EmailCliente { get; set; } = string.Empty;
 }
