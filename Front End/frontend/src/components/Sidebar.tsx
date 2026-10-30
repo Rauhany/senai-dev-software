@@ -1,10 +1,10 @@
 import { NavLink } from 'react-router-dom'
 import './sidebar.css'
 import { useAuth } from '../context/AuthContext'
-
-  
+ 
 function Sidebar() {
   const { user, logout } = useAuth()
+  
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
@@ -18,6 +18,14 @@ function Sidebar() {
       </div>
 
       <nav className="sidebar-nav">
+        {/* Link do Dashboard adicionado como primeiro item */}
+        <NavLink 
+          to="/dashboard" 
+          className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}
+        >
+          <span className="icon">📊</span> Dashboard
+        </NavLink>
+
         <NavLink 
           to="/produtos" 
           className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}
@@ -41,13 +49,11 @@ function Sidebar() {
         </NavLink>
 
         <div style={{ padding: '20px', color: 'white', fontSize: '13px' }}>
-  <p>👤 {user?.nome}</p>
-  <button onClick={logout}>🚪 Sair</button>
-</div>
+          <p>👤 {user?.nome}</p>
+          <button onClick={logout}>🚪 Sair</button>
+        </div>
       </nav>
     </aside>
-
-    
   )
 }
 

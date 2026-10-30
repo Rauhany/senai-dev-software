@@ -11,8 +11,8 @@ function LoginPage() {
   const { login, isAuthenticated } = useAuth()
   const navigate = useNavigate()
 
-  // Já logado? Não precisa ver o login
-  if (isAuthenticated) return <Navigate to="/produtos" replace />
+  // Já logado? Vai direto para o dashboard
+  if (isAuthenticated) return <Navigate to="/dashboard" replace />
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -21,7 +21,8 @@ function LoginPage() {
       setLoading(true)
       const resp = await authService.login({ email, senha })
       login(resp)
-      navigate('/produtos')
+      // Após o login, redireciona para o dashboard
+      navigate('/dashboard')
     } catch {
       setErro('E-mail ou senha incorretos.')
     } finally {

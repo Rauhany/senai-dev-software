@@ -1,9 +1,9 @@
-
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import Sidebar from './components/Sidebar'
 import ProtectedRoute from './components/ProtectedRoute'
 import LoginPage from './pages/LoginPage'
+import DashboardPage from './pages/DashboardPage'
 import ProdutosPage from './pages/ProdutosPage'
 import ClientesPage from './pages/ClientePage'
 import VendasPage from './pages/VendaPage'
@@ -19,10 +19,18 @@ function Layout() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
 
+          {/* "/" agora redireciona para o dashboard */}
           <Route
             path="/"
-            element={<Navigate to="/produtos" replace />}
+            element={<Navigate to="/dashboard" replace />}
           />
+
+          {/* Rota do Dashboard adicionada aqui */}
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          } />
 
           <Route
             path="/produtos"
