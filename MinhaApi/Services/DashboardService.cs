@@ -1,3 +1,8 @@
+using MinhaApi.Models;
+using MinhaApi.Services;
+using MinhaApi.Repositories;
+namespace MinhaApi.Services;
+
 public class DashboardService : IDashboardService
 {
     private readonly IDashboardRepository _repo;

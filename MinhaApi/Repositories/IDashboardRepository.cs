@@ -1,4 +1,10 @@
+using MinhaApi.Models;
+using MySqlConnector;
+namespace MinhaApi.Repositories;
+
 public interface IDashboardRepository
+
+
 {
     DashboardResumo ObterResumo(DateTime inicio);
     List<VendasPorDia> ObterVendasPorDia(DateTime inicio);
