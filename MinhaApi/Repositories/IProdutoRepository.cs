@@ -10,6 +10,8 @@ public interface IProdutoRepository
     void Update(Produto produto);
     void Delete(int id);
     Produto GetById(object produtoId);
+    void AtualizarFoto(int id, string? nomeArquivo);
+
 }
 
 

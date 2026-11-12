@@ -16,7 +16,7 @@ public class ProdutoRepository : IProdutoRepository
         conn.Open();
 
         // CORREÇÃO: Trocado 'id' por 'idproduto'
-        string sql = "SELECT idproduto, nome, preco, estoque, ativo FROM produtos";
+        string sql = "SELECT idproduto, nome, preco, estoque, ativo, foto FROM produtos";
         using var cmd = new MySqlCommand(sql, conn);
         using var reader = cmd.ExecuteReader();
 
@@ -26,7 +26,8 @@ public class ProdutoRepository : IProdutoRepository
                 Nome = reader.GetString("nome"),
                 Preco = reader.GetDecimal("preco"),
                 Estoque = reader.GetInt32("estoque"),
-                Ativo = reader.GetBoolean("ativo")
+                Ativo = reader.GetBoolean("ativo"),
+                Foto = reader["foto"] == DBNull.Value ? null : reader["foto"].ToString()
             });
         }
         return lista;
@@ -37,7 +38,7 @@ public class ProdutoRepository : IProdutoRepository
         using var conn = new MySqlConnection(_connectionString);
         conn.Open();
 
-        string sql = "SELECT idproduto, nome, preco, estoque, ativo FROM produtos WHERE idproduto = @Id";
+        string sql = "SELECT idproduto, nome, preco, estoque, ativo, foto FROM produtos WHERE idproduto = @Id";
         using var cmd = new MySqlCommand(sql, conn);
         cmd.Parameters.AddWithValue("@Id", id);
 
@@ -51,7 +52,8 @@ public class ProdutoRepository : IProdutoRepository
                 Nome = reader.GetString("nome"),
                 Preco = reader.GetDecimal("preco"),
                 Estoque = reader.GetInt32("estoque"),
-                Ativo = reader.GetBoolean("ativo")
+                Ativo = reader.GetBoolean("ativo"),
+                Foto = reader["foto"] == DBNull.Value ? null : reader["foto"].ToString()
             };
         }
 
@@ -63,8 +65,8 @@ public class ProdutoRepository : IProdutoRepository
         using var conn = new MySqlConnection(_connectionString);
         conn.Open();
 
-        string sql = @"INSERT INTO produtos (nome, preco, estoque, ativo)
-                       VALUES (@Nome, @Preco, @Estoque, @Ativo);
+        string sql = @"INSERT INTO produtos (nome, preco, estoque, ativo, foto)
+                       VALUES (@Nome, @Preco, @Estoque, @Ativo, @Foto);
                        SELECT LAST_INSERT_ID();";
 
         using var cmd = new MySqlCommand(sql, conn);
@@ -72,6 +74,7 @@ public class ProdutoRepository : IProdutoRepository
         cmd.Parameters.AddWithValue("@Preco", p.Preco);
         cmd.Parameters.AddWithValue("@Estoque", p.Estoque);
         cmd.Parameters.AddWithValue("@Ativo", p.Ativo);
+        cmd.Parameters.AddWithValue("@Foto", p.Foto);
 
         var idGerado = cmd.ExecuteScalar();
         p.Id = Convert.ToInt32(idGerado);
@@ -83,7 +86,7 @@ public class ProdutoRepository : IProdutoRepository
         conn.Open();
         
         string sql = @"UPDATE produtos 
-                       SET nome = @Nome, preco = @Preco, estoque = @Estoque, ativo = @Ativo
+                       SET nome = @Nome, preco = @Preco, estoque = @Estoque, ativo = @Ativo, foto = @Foto
                        WHERE idproduto = @Id";
 
         using var cmd = new MySqlCommand(sql, conn);
@@ -92,6 +95,7 @@ public class ProdutoRepository : IProdutoRepository
         cmd.Parameters.AddWithValue("@Preco", p.Preco);
         cmd.Parameters.AddWithValue("@Estoque", p.Estoque);
         cmd.Parameters.AddWithValue("@Ativo", p.Ativo);
+        cmd.Parameters.AddWithValue("@Foto", p.Foto);
         cmd.ExecuteNonQuery();
     }
 
@@ -110,4 +114,17 @@ public class ProdutoRepository : IProdutoRepository
     {
         throw new NotImplementedException();
     }
+
+    public void AtualizarFoto(int id, string? nomeArquivo)
+{
+    using var conn = new MySqlConnection(_cs);
+    conn.Open();
+    using var cmd = new MySqlCommand(
+        "UPDATE produtos SET foto = @Foto WHERE id = @Id", conn);
+
+    cmd.Parameters.AddWithValue("@Foto",
+        (object?)nomeArquivo ?? DBNull.Value); // null → NULL no banco
+    cmd.Parameters.AddWithValue("@Id", id);
+    cmd.ExecuteNonQuery();
+}
 }
