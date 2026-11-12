@@ -13,4 +13,9 @@ public class Produto
 
     public bool Ativo { get; set; }
         = true;
+
+         [JsonIgnore]
+    public string? Foto    { get; set; }
+
+    public string? FotoBase64 { get; set; }
 }
