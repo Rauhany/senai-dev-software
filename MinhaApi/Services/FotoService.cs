@@ -62,5 +62,4 @@ public class FotoService : IFotoService
         return $"data:{mime};base64," +
                Convert.ToBase64String(bytes);
     }
-} // fim de FotoService
-🔗 O que LerBase64 retorna
+} // f

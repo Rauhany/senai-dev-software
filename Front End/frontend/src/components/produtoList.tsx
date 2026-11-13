@@ -1,6 +1,6 @@
-
 import { useState } from 'react'
 import type { Produto } from '../types/Produto'
+import ModalFoto from '../components/Produtos/ModalFoto'
 
 interface Props {
   produtos: Produto[]
@@ -9,6 +9,7 @@ interface Props {
 
 function ProdutoList({ produtos, loading }: Props) {
   const [busca, setBusca] = useState('')
+  const [produtoModal, setProdutoModal] = useState<Produto | null>(null)
 
   const produtosFiltrados = produtos.filter(p =>
     p.nome.toLowerCase().includes(busca.toLowerCase().trim())
@@ -81,9 +82,65 @@ function ProdutoList({ produtos, loading }: Props) {
           {produtosFiltrados.map(p => (
             <li key={p.id} className="product-item">
               <div className="product-info">
-                <span className="product-avatar" aria-hidden="true">
-                  ▦
-                </span>
+                {/* Thumbnail clicável antes das infos (nome, preço) */}
+                <div
+                  onClick={() => p.fotoBase64 && setProdutoModal(p)}
+                  title={p.fotoBase64 ? 'Clique para ampliar a foto' : undefined}
+                  style={{
+                    cursor: p.fotoBase64 ? 'pointer' : 'default',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    borderRadius: '8px',
+                    width: '56px',
+                    height: '56px',
+                    flexShrink: 0,
+                  }}
+                >
+                  {p.fotoBase64 ? (
+                    <>
+                      <img
+                        src={p.fotoBase64}
+                        alt={p.nome}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          display: 'block',
+                        }}
+                      />
+                      <span
+                        aria-hidden="true"
+                        style={{
+                          position: 'absolute',
+                          bottom: '2px',
+                          right: '2px',
+                          background: 'rgba(0, 0, 0, 0.65)',
+                          color: '#fff',
+                          borderRadius: '4px',
+                          fontSize: '11px',
+                          padding: '1px 4px',
+                          lineHeight: 1,
+                        }}
+                      >
+                        🔍
+                      </span>
+                    </>
+                  ) : (
+                    <span
+                      className="product-avatar"
+                      aria-hidden="true"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      ▦
+                    </span>
+                  )}
+                </div>
 
                 <div
                   className="product-details"
@@ -125,6 +182,14 @@ function ProdutoList({ produtos, loading }: Props) {
           Exibindo <strong>{produtosFiltrados.length}</strong>
           {' '}de <strong>{produtos.length}</strong> produtos
         </div>
+      )}
+
+      {/* Modal renderizado fora do .map(), controlado pelo estado produtoModal */}
+      {produtoModal && (
+        <ModalFoto
+          produto={produtoModal}
+          onClose={() => setProdutoModal(null)}
+        />
       )}
     </section>
   )

@@ -117,7 +117,7 @@ public class ProdutoRepository : IProdutoRepository
 
     public void AtualizarFoto(int id, string? nomeArquivo)
 {
-    using var conn = new MySqlConnection(_cs);
+    using var conn = new MySqlConnection(_connectionString);
     conn.Open();
     using var cmd = new MySqlCommand(
         "UPDATE produtos SET foto = @Foto WHERE id = @Id", conn);

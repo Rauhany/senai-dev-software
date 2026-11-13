@@ -60,4 +60,10 @@ UPDATE usuarios
 SET senha_hash = '$2a$11$kn7wLkp0PM9o/JaaFdluz.ocr22lY3sD2DWBG1R1/D400VCRNdNVu'
 WHERE email = 'admin@senai.com';
 
+DESCRIBE produtos;
+
+ALTER TABLE produtos
+  ADD COLUMN foto VARCHAR(255) NULL;
+  
+  select * from clientes;
 
