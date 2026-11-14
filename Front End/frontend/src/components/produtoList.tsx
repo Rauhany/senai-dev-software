@@ -79,108 +79,114 @@ function ProdutoList({ produtos, loading }: Props) {
         </div>
       ) : (
         <ul className="product-list">
-          {produtosFiltrados.map(p => (
-            <li key={p.id} className="product-item">
-              <div className="product-info">
-                {/* Thumbnail clicável antes das infos (nome, preço) */}
-                <div
-                  onClick={() => p.fotoBase64 && setProdutoModal(p)}
-                  title={p.fotoBase64 ? 'Clique para ampliar a foto' : undefined}
-                  style={{
-                    cursor: p.fotoBase64 ? 'pointer' : 'default',
-                    position: 'relative',
-                    overflow: 'hidden',
-                    borderRadius: '8px',
-                    width: '56px',
-                    height: '56px',
-                    flexShrink: 0,
-                  }}
-                >
-                  {p.fotoBase64 ? (
-                    <>
-                      <img
-                        src={p.fotoBase64}
-                        alt={p.nome}
+          {produtosFiltrados.map(p => {
+            // Lê o campo 'foto' retornado pelo C# (ou 'fotoBase64' se existir)
+            const imagemProduto = p.foto || p.fotoBase64
+
+            return (
+              <li key={p.id} className="product-item">
+                <div className="product-info">
+                  {/* Thumbnail clicável no lugar do emoji */}
+                  <div
+                    onClick={() =>
+                      imagemProduto &&
+                      setProdutoModal({ ...p, fotoBase64: imagemProduto })
+                    }
+                    title={imagemProduto ? 'Clique para ampliar a foto' : undefined}
+                    style={{
+                      cursor: imagemProduto ? 'pointer' : 'default',
+                      position: 'relative',
+                      overflow: 'hidden',
+                      borderRadius: '8px',
+                      width: '56px',
+                      height: '56px',
+                      flexShrink: 0,
+                    }}
+                  >
+                    {imagemProduto ? (
+                      <>
+                        <img
+                          src={imagemProduto}
+                          alt={p.nome}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            display: 'block',
+                          }}
+                        />
+                        <span
+                          aria-hidden="true"
+                          style={{
+                            position: 'absolute',
+                            bottom: '2px',
+                            right: '2px',
+                            background: 'rgba(0, 0, 0, 0.65)',
+                            color: '#fff',
+                            borderRadius: '4px',
+                            fontSize: '11px',
+                            padding: '1px 4px',
+                            lineHeight: 1,
+                          }}
+                        >
+                          🔍
+                        </span>
+                      </>
+                    ) : (
+                      <span
+                        className="product-avatar"
+                        aria-hidden="true"
                         style={{
                           width: '100%',
                           height: '100%',
-                          objectFit: 'cover',
-                          display: 'block',
-                        }}
-                      />
-                      <span
-                        aria-hidden="true"
-                        style={{
-                          position: 'absolute',
-                          bottom: '2px',
-                          right: '2px',
-                          background: 'rgba(0, 0, 0, 0.65)',
-                          color: '#fff',
-                          borderRadius: '4px',
-                          fontSize: '11px',
-                          padding: '1px 4px',
-                          lineHeight: 1,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
                         }}
                       >
-                        🔍
+                        ▦
                       </span>
-                    </>
-                  ) : (
-                    <span
-                      className="product-avatar"
-                      aria-hidden="true"
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      ▦
-                    </span>
-                  )}
-                </div>
+                    )}
+                  </div>
 
-                <div
-                  className="product-details"
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'flex-start',
-                    gap: '6px',
-                  }}
-                >
-                  <span className="product-name">
-                    {p.nome}
-                  </span>
-
-                  <span
-                    className="product-id"
+                  <div
+                    className="product-details"
                     style={{
-                      display: 'inline-block',
-                      marginTop: '2px',
-                      color: '#94a3b8',
-                      fontSize: '13px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                      gap: '6px',
                     }}
                   >
-                    Código: {p.id ?? '—'}
-                  </span>
-                </div>
-              </div>
+                    <span className="product-name">{p.nome}</span>
 
-              <span className="product-price">
-                {formatarPreco(Number(p.preco))}
-              </span>
-            </li>
-          ))}
+                    <span
+                      className="product-id"
+                      style={{
+                        display: 'inline-block',
+                        marginTop: '2px',
+                        color: '#94a3b8',
+                        fontSize: '13px',
+                      }}
+                    >
+                      Código: {p.id ?? '—'}
+                    </span>
+                  </div>
+                </div>
+
+                <span className="product-price">
+                  {formatarPreco(Number(p.preco))}
+                </span>
+              </li>
+            )
+          })}
         </ul>
       )}
 
       {!loading && produtosFiltrados.length > 0 && (
         <div className="list-footer">
-          Exibindo <strong>{produtosFiltrados.length}</strong>
-          {' '}de <strong>{produtos.length}</strong> produtos
+          Exibindo <strong>{produtosFiltrados.length}</strong> de{' '}
+          <strong>{produtos.length}</strong> produtos
         </div>
       )}
 

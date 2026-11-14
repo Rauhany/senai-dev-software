@@ -34,13 +34,32 @@ public Produto? GetById(int id)
         throw new NotImplementedException();
     }
 
-    public Task<string> SalvarFoto(int id, IFormFile arquivo)
+    public async Task<string> SalvarFoto(int id, IFormFile arquivo)
     {
-        throw new NotImplementedException();
+        var produto = _repo.GetById(id)
+            ?? throw new KeyNotFoundException(
+                   "Produto não encontrado.");
+
+        // Se já tem foto, apaga a antiga do disco
+        if (!string.IsNullOrEmpty(produto.Foto))
+            _fotoService.Deletar(produto.Foto);
+
+        var nome = await _fotoService.SalvarAsync(arquivo);
+        _repo.AtualizarFoto(id, nome);
+
+        // Retorna a data URL — controller manda direto ao React
+        return _fotoService.LerBase64(nome)!;
     }
 
     public void RemoverFoto(int id)
     {
-        throw new NotImplementedException();
+        var produto = _repo.GetById(id)
+            ?? throw new KeyNotFoundException(
+                   "Produto não encontrado.");
+
+        if (string.IsNullOrEmpty(produto.Foto)) return;
+
+        _fotoService.Deletar(produto.Foto);
+        _repo.AtualizarFoto(id, null);
     }
 }
