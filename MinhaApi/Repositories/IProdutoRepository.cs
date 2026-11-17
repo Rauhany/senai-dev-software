@@ -1,5 +1,4 @@
 using MinhaApi.Models;
-
 namespace MinhaApi.Repositories;
 
 public interface IProdutoRepository
@@ -9,9 +8,6 @@ public interface IProdutoRepository
     void Add(Produto produto);
     void Update(Produto produto);
     void Delete(int id);
-    Produto GetById(object produtoId);
     void AtualizarFoto(int id, string? nomeArquivo);
 
 }
-
-

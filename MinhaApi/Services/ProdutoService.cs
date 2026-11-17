@@ -3,7 +3,6 @@ using MinhaApi.Services;
 using MinhaApi.Repositories;
 public class ProdutoService : IProdutoService
 {
-
     private readonly IProdutoRepository _repo;
     private readonly IFotoService _fotoService;
 
@@ -12,29 +11,58 @@ public class ProdutoService : IProdutoService
         _repo = repo;
         _fotoService = fotoService;
     }
-     
-    public IEnumerable<Produto> GetAll() => _repo.GetAll();
+
+    public IEnumerable<Produto> GetAll()
+{
+    var produtos = _repo.GetAll();
+
+    // Calcula o base64 para cada produto da lista
+    foreach (var p in produtos)
+    {
+        p.FotoBase64 = _fotoService.LerBase64(p.Foto);
+    }
+
+    return produtos;
+}
+
 public Produto? GetById(int id)
+{
+    var produto = _repo.GetById(id);
+    if (produto is null) return null;
+
+    // Enriquece o produto individual com o base64
+    produto.FotoBase64 = _fotoService.LerBase64(produto.Foto);
+    return produto;
+}
+
+    public Produto Create(Produto produto)
     {
-        throw new NotImplementedException();
+        if (produto.Preco < 0)
+            throw new ArgumentException("Preço inválido!");
+        _repo.Add(produto);
+        return produto;
     }
 
-    public Produto Add(Produto produto)
+    public Produto? Update(int id, Produto p)
     {
-        throw new NotImplementedException();
+        if (_repo.GetById(id) == null) return null;
+        p.Id = id;
+        _repo.Update(p);
+        return p;
     }
 
-    public Produto? Update(int id, Produto produto)
+public bool Delete(int id)
+{
+    var produto = _repo.GetById(id);
+    if (produto == null)
     {
-        throw new NotImplementedException();
+        return false;
     }
+    _repo.Delete(id);
+    return true;
+}
 
-    public bool Delete(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<string> SalvarFoto(int id, IFormFile arquivo)
+public async Task<string> SalvarFoto(int id, IFormFile arquivo)
     {
         var produto = _repo.GetById(id)
             ?? throw new KeyNotFoundException(

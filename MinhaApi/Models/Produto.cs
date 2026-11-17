@@ -4,7 +4,6 @@ namespace MinhaApi.Models;
 
 public class Produto
 {
-    internal object? idproduto;
 
     public int Id { get; set; }
 

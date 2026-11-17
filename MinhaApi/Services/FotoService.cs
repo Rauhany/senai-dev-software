@@ -1,3 +1,5 @@
+using MinhaApi.Services;
+
 public class FotoService : IFotoService
 {
     private readonly string _pasta;
@@ -30,15 +32,14 @@ public class FotoService : IFotoService
 
         return nome; // ex: "a3f9b2c1.jpg"
     }
-
+    
     public void Deletar(string? nomeArquivo)
     {
         if (string.IsNullOrWhiteSpace(nomeArquivo)) return;
         var caminho = Path.Combine(_pasta, nomeArquivo);
         if (File.Exists(caminho)) File.Delete(caminho);
     }
-
-      public string? LerBase64(string? nomeArquivo)
+     public string? LerBase64(string? nomeArquivo)
     {
         if (string.IsNullOrWhiteSpace(nomeArquivo)) return null;
 
@@ -62,4 +63,4 @@ public class FotoService : IFotoService
         return $"data:{mime};base64," +
                Convert.ToBase64String(bytes);
     }
-} // f
+}
